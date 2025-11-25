@@ -10,7 +10,6 @@ public class LoginSteoDefs {
     @Given("User is on the main login page")
     public void user_is_on_the_main_login_page() {
         Driver.get().get(ConfigurationReader.get("url"));
-
     }
     @When("User enters valid credentials")
     public void user_enters_valid_credentials() {
