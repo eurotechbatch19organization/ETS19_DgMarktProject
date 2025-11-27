@@ -18,6 +18,7 @@ public class LoginStepDefs {
     @Given("User is on the main login page")
     public void user_is_on_the_main_login_page() {
         Driver.get().get(ConfigurationReader.get("url"));
+
     }
     @When("The user enters valid email and password and clicks the Login button")
     public void the_user_enters_valid_email_and_password_and_clicks_the_login_button() {

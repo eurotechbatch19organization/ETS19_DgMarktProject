@@ -10,9 +10,8 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.nio.file.WatchEvent;
 
-public class LoginPage extends BasePage{
+public class LoginPage extends BasePage {
 
     @FindBy(name = "email")
     private WebElement emailBox;
@@ -62,11 +61,14 @@ public class LoginPage extends BasePage{
         }
     }
 
-    public void setUpUI(){
-       Driver.get().manage().window().maximize();
-       Driver.get().get(ConfigurationReader.get("url"));
-       login();
+    public void setUpUI() {
+        Driver.get().manage().window().maximize();
+        Driver.get().get(ConfigurationReader.get("url"));
+        login();
     }
+
+
+}
 
     public void login2(){
         login2Btn.click();
@@ -107,3 +109,4 @@ public class LoginPage extends BasePage{
 
 
 }
+
