@@ -1,7 +1,6 @@
 package com.dgmarkt.step_definitions;
 
 import com.dgmarkt.pages.LoginPage;
-import com.dgmarkt.utilities.BrowserUtils;
 import com.dgmarkt.utilities.ConfigurationReader;
 import com.dgmarkt.utilities.Driver;
 import io.cucumber.java.en.Given;
@@ -9,8 +8,12 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
 
+import static com.dgmarkt.utilities.BrowserUtils.waitForVisibility;
+
 public class LoginStepDefs {
     LoginPage loginPage = new LoginPage();
+
+
 
     @Given("User is on the main login page")
     public void user_is_on_the_main_login_page() {
@@ -26,11 +29,13 @@ public class LoginStepDefs {
     }
     @Then("The user should see the main page")
     public void the_user_should_see_the_main_page() {
-        LoginPage loginPage = new LoginPage();
-        BrowserUtils.waitForVisibility(loginPage.myAccountLink, 10);
-
+        waitForVisibility(loginPage.myAccountLink, 10);
         Assert.assertTrue("My Account link is not displayed!",
                 loginPage.myAccountLink.isDisplayed());
     }
+
+
+
+
 
 }
