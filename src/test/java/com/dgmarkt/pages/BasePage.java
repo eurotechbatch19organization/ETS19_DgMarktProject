@@ -2,12 +2,17 @@ package com.dgmarkt.pages;
 
 import com.dgmarkt.utilities.BrowserUtils;
 import com.dgmarkt.utilities.Driver;
+import org.apache.poi.ss.formula.functions.T;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,26 +23,25 @@ public abstract class BasePage {
      }
 
     Actions actions= new Actions(Driver.get());
+    WebDriverWait wait = new WebDriverWait(Driver.get(), Duration.ofSeconds(5));
+
+
     @FindBy(xpath = "//div[@id='pt-menu-7739']/ul/li")
     private List<WebElement> homeTabElements;
 
     @FindBy(xpath = "//span[text()='Category']")
-    public WebElement categoryMenu;
-    @FindBy(xpath = "(//a[contains(text(),'Health & Beauty')])[1]")
-    private WebElement healthAndBeautySubmenu;
-
-    @FindBy(xpath = "(//a[contains(text(),'Televisions')])[1]")
-    private WebElement televisionsSubmenu;
-
-    @FindBy(xpath = "(//a[contains(text(),'TV Accessories')])[1]")
-    private WebElement tvAccessoriesSubmenu;
-
-    @FindBy(xpath = "(//a[contains(text(),'Networking')])[1]")
-    private WebElement networkingSubmenu;
+    private WebElement categoryMenu;
 
     @FindBy(xpath = "//div[@class='row']//a[@class='a-mega-second-link']")
-    public List<WebElement> submenuList;
+    private List<WebElement> submenuList;
 
+    public WebElement getCategoryMenu() {
+        return categoryMenu;
+    }
+
+    public List<WebElement> getSubmenuList() {
+        return submenuList;
+    }
 
     public List<String > getHomeTabsTexts(){
         return BrowserUtils.getElementsText(homeTabElements);
@@ -45,6 +49,8 @@ public abstract class BasePage {
 
     public void hoverToCategory(){
         actions.moveToElement(categoryMenu).perform();
+
+
     }
 
     public List<String> getSubmenuNames() {
@@ -55,6 +61,15 @@ public abstract class BasePage {
         return submenuNames;
     }
 
+    public void verifyCategoryTabs(){
+        wait.until(ExpectedConditions.visibilityOfAllElements(getSubmenuList()));
+
+        boolean allVisible = getSubmenuList()
+                .stream()
+                .allMatch(WebElement::isDisplayed);
+        Assert.assertTrue("Submenu list is NOT visible!", allVisible);
+
+    }
 
 
 
