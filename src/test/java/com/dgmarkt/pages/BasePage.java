@@ -2,6 +2,7 @@ package com.dgmarkt.pages;
 
 import com.dgmarkt.utilities.BrowserUtils;
 import com.dgmarkt.utilities.Driver;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -14,15 +15,16 @@ import java.util.List;
 
 public abstract class BasePage {
     {
-        PageFactory.initElements(Driver.get(),this);
-     }
+        PageFactory.initElements(Driver.get(), this);
+    }
 
-    Actions actions= new Actions(Driver.get());
+    Actions actions = new Actions(Driver.get());
     @FindBy(xpath = "//div[@id='pt-menu-7739']/ul/li")
     private List<WebElement> homeTabElements;
 
     @FindBy(xpath = "//span[text()='Category']")
     public WebElement categoryMenu;
+
     @FindBy(xpath = "(//a[contains(text(),'Health & Beauty')])[1]")
     private WebElement healthAndBeautySubmenu;
 
@@ -38,12 +40,18 @@ public abstract class BasePage {
     @FindBy(xpath = "//div[@class='row']//a[@class='a-mega-second-link']")
     public List<WebElement> submenuList;
 
+    @FindBy(xpath = "//span[text()='Currency']")
+    private WebElement currencyDropdown;
 
-    public List<String > getHomeTabsTexts(){
+    @FindBy(css = "a.a-close-newsletter")
+    private WebElement closeNewsletterButton;
+
+
+    public List<String> getHomeTabsTexts() {
         return BrowserUtils.getElementsText(homeTabElements);
     }
 
-    public void hoverToCategory(){
+    public void hoverToCategory() {
         actions.moveToElement(categoryMenu).perform();
     }
 
@@ -55,20 +63,60 @@ public abstract class BasePage {
         return submenuNames;
     }
 
+    /**
+     * bu method category altındaki submenulere tıklamak için kullanılıyor.
+     * @param categoryName
+     */
+    public void clickToCategory(String categoryName) {
+        hoverToCategory();
+        for (WebElement submenu : submenuList) {
+            if (submenu.getText().trim().equalsIgnoreCase(categoryName.trim())) {
+                submenu.click();
+                return;
+            }
+        }
+    }
+    public void openCurrencyOptions() {
+        currencyDropdown.click();
+    }
 
+    /**
+     * Bu methodu elimizde olan currency optionslardan birini secmek icin kullaniyoruz.
+     * @param currency
+     */
+    public void selectCurrency(String currency) {
+        WebElement currencyOption = Driver.get().findElement(
+                By.xpath("//button[contains(text(), '" + currency + "')]")
+        );
+        currencyOption.click();
+    }
 
+    /**
+     * Bu method sayfadaki fiyatların seçilen para birimi sembolünü içerip içermediğini doğruluyor.
+     * @param symbol
+     */
+    public void verifyPricesContainSymbol(String symbol) {
+        List<WebElement> prices = Driver.get().findElements(By.xpath("//div[@class=\"box-price\"]"));
 
+        for (WebElement price : prices) {
+            String priceText = price.getText();
 
+            Assert.assertTrue("Price does not contain the symbol:" + priceText, priceText.contains(symbol));
+        }
+    }
+    public void visibleSymbolsInCurrency(String pageSymbol){
 
+        WebElement symbol =Driver.get().findElement
+                (By.xpath("//span[contains(text(),'"+pageSymbol+"')]"));
 
+        Assert.assertTrue(symbol.isDisplayed());
 
-
-
-
-
-
+    }
 
 
 
 
 }
+
+
+

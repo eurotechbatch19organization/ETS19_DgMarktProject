@@ -54,7 +54,7 @@ public class LoginPage extends BasePage {
         closeNewsletterPopupIfExists();
     }
 
-    private void closeNewsletterPopupIfExists() {
+    public void closeNewsletterPopupIfExists() {
         try {
             BrowserUtils.waitForClickablility(closeNewsletterButton, 10).click();
         } catch (Exception ignored) {
