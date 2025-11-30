@@ -6,7 +6,7 @@ Feature: Home Page Functionality
    And Closes the newsletter popup if it appears
    Then The user should see the main page
 
-@wip
+
   Scenario: Verifying Category Menu Visibility on the Home Page-TC001-[US-12]
     When the user locates the Category section on the homepage
     And the user hovers over the Category section
@@ -44,5 +44,25 @@ Feature: Home Page Functionality
     And the user hovers over the Category section
     When from the dropdown menu, the user clicks on the Networking subcategory
     Then the user is directed to the Networking page
+
+  @wip
+  Scenario: Viewing Category Submenus after Login-TC002-[US-12]
+    Given The user clicks on the My Account button
+    When The user clicks on the Login2 button
+    Then The user should see the Login or create an account page
+    When The user enters E-Mail Address and Password and clicks the Login button
+    Then The user verifies Login Successful message is displayed
+    When the user locates the Category section on the homepage
+    And the user hovers over the Category section
+    And The user should be able to see the Category submenu list
+    And The submenu should contain the following items:
+      | HEALTH & BEAUTY |
+      | TELEVISIONS     |
+      | TV ACCESSORIES  |
+      | NETWORKING      |
+
+
+
+
 
 
