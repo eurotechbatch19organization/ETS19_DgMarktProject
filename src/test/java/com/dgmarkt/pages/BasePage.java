@@ -35,6 +35,31 @@ public abstract class BasePage {
     @FindBy(xpath = "//div[@class='row']//a[@class='a-mega-second-link']")
     private List<WebElement> submenuList;
 
+    @FindBy(xpath = "(//a[contains(text(),'Health & Beauty')])[1]")
+    private WebElement healthAndBeautySubmenu;
+
+    @FindBy(xpath = "(//a[contains(text(),'Televisions')])[1]")
+    private WebElement televisionsSubmenu;
+
+    @FindBy(xpath = "(//a[contains(text(),'TV Accessories')])[1]")
+    private WebElement tvAccessoriesSubmenu;
+
+    @FindBy(xpath = "(//a[contains(text(),'Networking')])[1]")
+    private WebElement networkingSubmenu;
+
+    public WebElement getHealthAndBeautySubmenu() {
+        return healthAndBeautySubmenu;
+    }
+    public WebElement getTelevisionsSubmenu() {
+        return televisionsSubmenu;
+    }
+    public WebElement getTvAccessoriesSubmenu() {
+        return tvAccessoriesSubmenu;
+    }
+    public WebElement getNetworkingSubmenu() {
+        return networkingSubmenu;
+    }
+
     public WebElement getCategoryMenu() {
         return categoryMenu;
     }
@@ -49,8 +74,6 @@ public abstract class BasePage {
 
     public void hoverToCategory(){
         actions.moveToElement(categoryMenu).perform();
-
-
     }
 
     public List<String> getSubmenuNames() {
@@ -72,18 +95,21 @@ public abstract class BasePage {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
