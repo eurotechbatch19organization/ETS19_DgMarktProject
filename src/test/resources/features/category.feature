@@ -6,7 +6,7 @@ Feature: Home Page Functionality
    And Closes the newsletter popup if it appears
    Then The user should see the main page
 
-@wip
+
   Scenario: Verifying Category Menu Visibility on the Home Page-TC001-[US-12]
     When the user locates the Category section on the homepage
     And the user hovers over the Category section

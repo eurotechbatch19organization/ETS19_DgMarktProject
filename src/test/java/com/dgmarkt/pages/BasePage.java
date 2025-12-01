@@ -35,6 +35,14 @@ public abstract class BasePage {
     @FindBy(xpath = "//div[@class='row']//a[@class='a-mega-second-link']")
     private List<WebElement> submenuList;
 
+    @FindBy(xpath = "//a[contains(@href, 'product_id=7064674')]/following-sibling::div[@class='button-group']//button[@class='button-compare']")
+    private WebElement compareButton;
+
+    @FindBy(xpath = "//a[text()='product comparison']")
+    private WebElement productComparisonLink;
+
+
+
     public WebElement getCategoryMenu() {
         return categoryMenu;
     }
@@ -71,6 +79,21 @@ public abstract class BasePage {
 
     }
 
+
+    public void hoverToCompareBtn(){
+        actions.moveToElement(compareButton).perform();
+
+
+    }
+
+    public WebElement CompareBtn(){
+        return compareButton;
+    }
+
+    public WebElement ProductComparisonLinkBtn() {
+        return productComparisonLink;
+
+    }
 
 
 
