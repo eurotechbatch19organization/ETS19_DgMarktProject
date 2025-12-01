@@ -1,6 +1,7 @@
 package com.dgmarkt.step_definitions;
 
 import com.dgmarkt.pages.HealthAndBeautyPage;
+import com.dgmarkt.utilities.Driver;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
@@ -32,9 +33,20 @@ public class CompareStepDefs {
     }
 
     @Then("The user clicks the ‘product comparison’ text within the message ‘Success: You have added BaByliss 3663U - Hair Rollers to your product comparison!’")
-    public void the_user_clicks_the_product_comparison_text_within_the_message_success_you_have_added_ba_byliss_3663u_hair_rollers_to_your_product_comparison() {
+    public void the_user_clicks_the_product_comparison_text_within_the_message_success_you_have_added_ba_byliss_3663u_hair_rollers_to_your_product_comparison() throws InterruptedException {
         healthAndBeautyPage.ProductComparisonLinkBtn().click();
+
+
     }
+
+    @Then("The user verifies that the {string} product has been added to the Product Comparison page.")
+    public void the_user_verifies_that_the_product_has_been_added_to_the_product_comparison_page(String expectedProductName) {
+        healthAndBeautyPage.verifyProductInCompareList(expectedProductName);
+
+
+    }
+
+
 
 
 

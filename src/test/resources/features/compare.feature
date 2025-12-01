@@ -28,3 +28,4 @@ Feature: Cat-Subcategory-Compare this Product icon function Test
     Then The user should see the Compare this Product icon appear on product hover
     Then The user clicks on the Compare this Product icon for the  BaByliss 3663U
     Then The user clicks the ‘product comparison’ text within the message ‘Success: You have added BaByliss 3663U - Hair Rollers to your product comparison!’
+    Then The user verifies that the "BaByliss 3663U - Hair Rollers" product has been added to the Product Comparison page.
