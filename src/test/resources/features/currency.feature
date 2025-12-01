@@ -8,12 +8,13 @@ Feature: Currency Scenario
   Scenario: (Without Login)Verify Currency Selection
     When The user selects "Euro" from the dropdown
     Then The user should see the currency symbol "€" displayed on the page
-    And The user should be able to hover over the Category Menu
-    And The user should be able to see the Category submenu list
+
 
 
   Scenario: (Without Login) Verify Currency Selection and Add to Cart
-    When The user selects "Euro" from the dropdown
+    When the user hovers over the Category section
+    And The user should be able to see the Category submenu list
+    Then The user selects "Euro" from the dropdown
     And The user clicks on "HEALTH & BEAUTY" Category
     Then The user verifies that the selected currency symbol "€" is displayed on the page.
     And The user add "eufy C1 Smart Scale White" to the shopping cart.

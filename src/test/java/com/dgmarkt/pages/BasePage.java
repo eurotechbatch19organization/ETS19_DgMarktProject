@@ -116,10 +116,6 @@ public abstract class BasePage {
 
     }
 
-
-}
-
-
     /**
      * Bu methodu elimizde olan currency optionslardan birini secmek icin kullaniyoruz.
      * @param currency
