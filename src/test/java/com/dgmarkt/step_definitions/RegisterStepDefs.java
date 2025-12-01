@@ -186,6 +186,102 @@ public class RegisterStepDefs {
         register.enterPasswordConfirm(password);
     }
 
+    @When("The user fills the registration form with invalid Email format")
+    public void the_user_fills_the_registration_form_with_invalid_email_format() {
+        String password = faker.internet().password(8, 12, true, true);
+
+        register.enterFirstName(faker.name().firstName());
+        register.enterLastName(faker.name().lastName());
+        register.enterEmail("invalidEmailFormat"); // Invalid email format
+        register.enterTelephone(faker.number().digits(11));
+        register.enterPassword(password);
+        register.enterPasswordConfirm(password);
+    }
+
+    @When("The user fills the registration form with mismatched passwords")
+    public void the_user_fills_the_registration_form_with_mismatched_passwords() {
+        String password = faker.internet().password(8, 12, true, true);
+        String differentPassword = faker.internet().password(8,12,true,true);
+
+        register.enterFirstName(faker.name().firstName());
+        register.enterLastName(faker.name().lastName());
+        register.enterEmail(faker.internet().emailAddress());
+        register.enterTelephone(faker.number().digits(11));
+        register.enterPassword(password);
+        register.enterPasswordConfirm(differentPassword); // Mismatched password
+    }
+
+    @When("The user fills the registration form with First Name longer than thirty two characters")
+    public void the_user_fills_the_registration_form_with_first_name_longer_than_thirty_two_characters() {
+      String password = faker.internet().password(8,12,true,true);
+
+        register.enterFirstName(faker.lorem().characters(33));
+        register.enterLastName(faker.name().lastName());
+        register.enterEmail(faker.internet().emailAddress());
+        register.enterTelephone(faker.number().digits(11));
+        register.enterPassword(password);
+        register.enterPasswordConfirm(password);
+    }
+
+    @When("The user fills the registration form with Last Name longer than thirty two characters")
+    public void the_user_fills_the_registration_form_with_last_name_longer_than_thirty_two_characters() {
+        String password = faker.internet().password(8,12,true,true);
+
+        register.enterFirstName(faker.name().firstName());
+        register.enterLastName(faker.lorem().characters(33));
+        register.enterEmail(faker.internet().emailAddress());
+        register.enterTelephone(faker.number().digits(11));
+        register.enterPassword(password);
+        register.enterPasswordConfirm(password);
+    }
+
+    @When("The user fills the registration form with Telephone shorter than three characters")
+    public void the_user_fills_the_registration_form_with_telephone_shorter_than_three_characters() {
+        String password = faker.internet().password(8,12,true,true);
+
+        register.enterFirstName(faker.name().firstName());
+        register.enterLastName(faker.name().lastName());
+        register.enterEmail(faker.internet().emailAddress());
+        register.enterTelephone(faker.number().digits(2));
+        register.enterPassword(password);
+        register.enterPasswordConfirm(password);
+    }
+
+    @When("The user fills the registration form with Telephone longer than thirty two characters")
+    public void the_user_fills_the_registration_form_with_telephone_longer_than_thirty_two_characters() {
+        String password = faker.internet().password(8,12,true,true);
+
+        register.enterFirstName(faker.name().firstName());
+        register.enterLastName(faker.name().lastName());
+        register.enterEmail(faker.internet().emailAddress());
+        register.enterTelephone(faker.number().digits(33));
+        register.enterPassword(password);
+        register.enterPasswordConfirm(password);
+    }
+
+    @When("The user fills the registration form with Password shorter than four characters")
+    public void the_user_fills_the_registration_form_with_password_shorter_than_four_characters() {
+        String shortPassword = faker.lorem().characters(3);
+
+        register.enterFirstName(faker.name().firstName());
+        register.enterLastName(faker.name().lastName());
+        register.enterEmail(faker.internet().emailAddress());
+        register.enterPassword(shortPassword);
+        register.enterPasswordConfirm(shortPassword);
+    }
+
+    @When("The user fills the registration form with Password longer than twenty characters")
+    public void the_user_fills_the_registration_form_with_password_longer_than_twenty_characters() {
+        String longPassword = faker.lorem().characters(21);
+
+        register.enterFirstName(faker.name().firstName());
+        register.enterLastName(faker.name().lastName());
+        register.enterEmail(faker.internet().emailAddress());
+        register.enterTelephone(faker.number().digits(11));
+        register.enterPassword(longPassword);
+        register.enterPasswordConfirm(longPassword);
+    }
+
     @Then("The error message {string} should be displayed")
     public void the_error_message_should_be_displayed(String expectedErrorMessage) {
         String actualErrorMessage = "";
