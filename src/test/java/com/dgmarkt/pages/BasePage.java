@@ -63,6 +63,11 @@ public abstract class BasePage {
         BrowserUtils.waitForVisibility(continueButton, 3);
         continueButton.click();
     }
+    @FindBy(xpath = "//a[contains(@href, 'product_id=7064674')]/following-sibling::div[@class='button-group']//button[@class='button-compare']")
+    private WebElement compareButton;
+
+    @FindBy(xpath = "//a[text()='product comparison']")
+    private WebElement productComparisonLink;
 
     public WebElement getHealthAndBeautySubmenu() {
         return healthAndBeautySubmenu;
@@ -133,10 +138,6 @@ public abstract class BasePage {
 
     }
 
-
-
-
-
     /**
      * Bu methodu elimizde olan currency optionslardan birini secmek icin kullaniyoruz.
      * @param currency
@@ -176,7 +177,56 @@ public abstract class BasePage {
         Assert.assertEquals(expected, actual);
     }
 
+    /**
+     * bu metod Compare this Product butonunu hover yapmak için hazırlanmıştır.
+     */
 
+    public void hoverToCompareBtn() {
+        actions.moveToElement(compareButton).perform();
+    }
+
+    /**
+     * bu metod Compare this Product butonunu click yapabilmek için hazırlanmıştır.
+     */
+
+    public WebElement CompareBtn(){
+        return compareButton;
+    }
+
+    /**
+     * bu metod ProductComparisonLinkBtn'a click yapabilmek için hazırlanmıştır.
+     */
+
+
+    public WebElement ProductComparisonLinkBtn(){
+        return productComparisonLink;
+    }
+
+    // Compare list ürün isimleri
+    @FindBy(css = "table.table-bordered td a strong")
+    private List<WebElement>productNames;
+
+    @FindBy(xpath = "//a/strong[text()='BaByliss 3663U - Hair rollers']")
+    private WebElement product;
+
+    /**
+     * bu metod ürünün Product Comparison sayfasına eklenip eklenmediğini kontrol eder.
+     * @param expectedProductName
+     */
+
+
+    public void verifyProductInCompareList(String expectedProductName) {
+
+       WebDriverWait wait = new WebDriverWait(Driver.get(), Duration.ofSeconds(5));
+       wait.until(ExpectedConditions.visibilityOfAllElements(productNames));
+
+       boolean found = productNames.stream()
+               .map(WebElement::getText)
+               .map(String::trim)
+               .anyMatch(name -> name.equalsIgnoreCase(expectedProductName));
+
+       Assert.assertTrue("Compare list içinde ürün bulunamadı: " + expectedProductName, found);
+   }
 
 
 }
