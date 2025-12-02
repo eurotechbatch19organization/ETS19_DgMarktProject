@@ -1,6 +1,7 @@
 package com.dgmarkt.pages;
 
 import com.dgmarkt.utilities.BrowserUtils;
+import com.dgmarkt.utilities.ConfigurationReader;
 import com.dgmarkt.utilities.Driver;
 import org.apache.poi.ss.formula.functions.T;
 import org.junit.Assert;
@@ -47,6 +48,21 @@ public abstract class BasePage {
     @FindBy(xpath = "(//a[contains(text(),'Networking')])[1]")
     private WebElement networkingSubmenu;
 
+    @FindBy(xpath = "//span[text()='My Account']")
+    private WebElement myAccountLink;
+
+    @FindBy(id = "pt-logout-link")
+    public WebElement logoutButton;
+
+    @FindBy(xpath = "(//span[text()='Continue'])[2]")
+    private WebElement continueButton;
+
+    public void logout() {
+        myAccountLink.click();
+        logoutButton.click();
+        BrowserUtils.waitForVisibility(continueButton, 3);
+        continueButton.click();
+    }
     @FindBy(xpath = "//a[contains(@href, 'product_id=7064674')]/following-sibling::div[@class='button-group']//button[@class='button-compare']")
     private WebElement compareButton;
 
@@ -153,6 +169,12 @@ public abstract class BasePage {
 
         Assert.assertTrue(symbol.isDisplayed());
 
+    }
+    public void verifyMainPageUrl() {
+        String expected = ConfigurationReader.get("urlMain");
+        String actual = Driver.get().getCurrentUrl();
+
+        Assert.assertEquals(expected, actual);
     }
 
     /**
