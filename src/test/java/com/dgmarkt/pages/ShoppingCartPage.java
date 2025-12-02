@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
@@ -147,6 +148,7 @@ public class ShoppingCartPage extends BasePage {
      * Bu method sipariş onay mesajının doğru olduğunu doğrular
      */
     public void verifyOrderConfirmationMessage() {
+      //  wait.until(ExpectedConditions.visibilityOf(orderConfirmationMessage));
         String expectedMessage = "Your Order Has Been Placed!";
         String actualMessage = orderConfirmationMessage.getText();
         Assert.assertEquals(expectedMessage, actualMessage);
