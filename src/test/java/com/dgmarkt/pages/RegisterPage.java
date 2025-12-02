@@ -8,6 +8,9 @@ import org.openqa.selenium.support.FindBy;
 
 public class RegisterPage extends BasePage {
 
+    @FindBy(linkText = "Register")
+    public WebElement registerLink;
+
     @FindBy(id = "input-firstname")
     private WebElement firstName;
 
