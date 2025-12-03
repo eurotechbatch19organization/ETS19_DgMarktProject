@@ -3,7 +3,8 @@ package com.dgmarkt.pages;
 import com.dgmarkt.utilities.BrowserUtils;
 import com.dgmarkt.utilities.ConfigurationReader;
 import com.dgmarkt.utilities.Driver;
-import org.apache.poi.ss.formula.functions.T;
+
+
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -48,6 +49,37 @@ public abstract class BasePage {
     @FindBy(xpath = "(//a[contains(text(),'Networking')])[1]")
     private WebElement networkingSubmenu;
 
+    @FindBy(xpath = "//h1[text()='Health & Beauty']")
+    private WebElement healthAndBeautyHeader;
+
+    @FindBy(xpath = "//h1[text()='Televisions']")
+    private WebElement televisionsHeader;
+
+    @FindBy(xpath = "//h1[text()='TV Accessories']")
+    private WebElement tvAccessoriesHeader;
+
+    @FindBy(xpath = "//h1[text()='Networking']")
+    private WebElement networkingHeader;
+
+    @FindBy(css = "a[title='My Account']")
+    private WebElement myAccountLink;
+
+    @FindBy(xpath = "//ul[@class='dropdown-menu dropdown-menu-right pt-account']/li")
+    private List<WebElement> MyAccountAllSubMenus;
+
+    @FindBy(xpath = "(//a[text()='My Account'])[1]")
+    private WebElement myAccountHeader;
+
+    @FindBy(xpath = "//span[text()='Currency']")
+    private WebElement currencyDropdown;
+
+    @FindBy(css = "a.a-close-newsletter")
+    private WebElement closeNewsletterButton;
+
+
+
+
+
     @FindBy(xpath = "//span[text()='My Account']")
     private WebElement myAccountLink;
 
@@ -82,11 +114,27 @@ public abstract class BasePage {
         return networkingSubmenu;
     }
 
-    @FindBy(xpath = "//span[text()='Currency']")
-    private WebElement currencyDropdown;
+    public WebElement getHealthAndBeautyHeader() {
+        return healthAndBeautyHeader;
+    }
+    public WebElement getTelevisionsHeader() {
+        return televisionsHeader;
+    }
+    public WebElement getTvAccessoriesHeader() {
+        return tvAccessoriesHeader;
+    }
+    public WebElement getNetworkingHeader() {
+        return networkingHeader;
+    }
 
-    @FindBy(css = "a.a-close-newsletter")
-    private WebElement closeNewsletterButton;
+
+    public List<WebElement> getAllSubMenus() {
+        return MyAccountAllSubMenus;
+    }
+    public WebElement getMyAccountHeader() {
+        return myAccountHeader;
+    }
+
 
     public WebElement getCategoryMenu() {
         return categoryMenu;
@@ -96,14 +144,28 @@ public abstract class BasePage {
         return submenuList;
     }
 
+
+
+
+    /**
+     * bu method daschboard daki menuleri icine aldigi bir list icerir.SG
+     * @return
+     */
     public List<String> getHomeTabsTexts() {
         return BrowserUtils.getElementsText(homeTabElements);
     }
 
+    /**
+     * bu method category menusune haver yapmak icin kullanilir SG
+     */
     public void hoverToCategory() {
         actions.moveToElement(categoryMenu).perform();
     }
 
+    /**
+     * bu method category menusundeki submenuleri almak icin kullanilir.SG
+     * @return
+     */
     public List<String> getSubmenuNames() {
         List<String> submenuNames = new ArrayList<>();
         for (WebElement submenu : submenuList) {
@@ -113,7 +175,7 @@ public abstract class BasePage {
     }
 
     /**
-     * bu method category altındaki submenulere tıklamak için kullanılıyor.
+     * bu method category altındaki submenulere tıklamak için kullanılıyor.SG
      * @param categoryName
      */
     public void clickToCategory(String categoryName) {
@@ -125,9 +187,15 @@ public abstract class BasePage {
             }
         }
     }
+
+
     public void openCurrencyOptions() {
         currencyDropdown.click();
     }
+
+    /**
+     * bu method category submenulerinin dogru sayfasina gittigini dogrulamak icin kullanilir.SG
+     */
     public void verifyCategoryTabs(){
         wait.until(ExpectedConditions.visibilityOfAllElements(getSubmenuList()));
 
@@ -219,8 +287,7 @@ public abstract class BasePage {
 
        WebDriverWait wait = new WebDriverWait(Driver.get(), Duration.ofSeconds(5));
        wait.until(ExpectedConditions.visibilityOfAllElements(productNames));
-
-       boolean found = productNames.stream()
+      boolean found = productNames.stream()
                .map(WebElement::getText)
                .map(String::trim)
                .anyMatch(name -> name.equalsIgnoreCase(expectedProductName));
@@ -228,8 +295,59 @@ public abstract class BasePage {
        Assert.assertTrue("Compare list içinde ürün bulunamadı: " + expectedProductName, found);
    }
 
+    /**
+     * category menusunun alt submenulerine tikladigimizda SG
+     * dogru sayfada oldugumuzu gösteren dinamik method
+     * @param expectedHeader
+     */
+    public void veriyfToSubMenuName(String expectedHeader){
 
+        WebElement header = Driver.get().findElement(By.xpath("//h1[text()='"+expectedHeader+"']"));
+        Assert.assertEquals(
+                "Page header is not correct!",
+                expectedHeader,
+                header.getText().trim()
+        );
+    }
+
+    /**
+     * kullanici login olduktan sonra ki My Account menusunun submenulerini icine alan SG
+     * dinamik list methodu
+     *
+     * @param menuName
+     */
+    public void clickMyAccountToSubMenu(String menuName) {
+        BrowserUtils.waitFor(1);
+        WebElement submenu = Driver.get().findElement(By.xpath("(//a[text()='"+menuName+"'])[1]"));
+       BrowserUtils.clickWithJS(submenu);
+    }
+
+    /**
+     * bu methodla MyAccount daki submenudeki My Account un sayfasindaki Section'lara gideriz
+     * dinamik method
+     * @param sectionName
+     */
+    public void clickSection(String sectionName) {
+        WebElement section = Driver.get().findElement(
+                By.xpath("//a[normalize-space()='" + sectionName + "']")
+        );
+        section.click();
+    }
+
+    /**
+     * ana sayfadaki My Account linkine tiklar SG
+     */
+    public void clickMyAccountLink(String myAccount){
+        BrowserUtils.waitFor(1);
+        wait.until(ExpectedConditions.visibilityOf(myAccountLink));
+        clickMyAccountToSubMenu("Password");
+    }
 }
+
+
+
+
+
 
 
 

@@ -68,6 +68,12 @@ public class LoginStepDefs {
 
     }
 
+    @Then("The user Login with credentials")
+    public void the_user_login_with_credentials() {
+      loginPage.loginWithSelda();
+    }
+
+
 
 
 }
