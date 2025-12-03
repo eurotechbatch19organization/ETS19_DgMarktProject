@@ -1,5 +1,6 @@
 package com.dgmarkt.step_definitions;
 
+import com.dgmarkt.pages.LoginPage;
 import com.dgmarkt.pages.ShoppingCartPage;
 import com.dgmarkt.utilities.BrowserUtils;
 import io.cucumber.java.en.And;
@@ -11,12 +12,13 @@ import org.openqa.selenium.WebElement;
 public class ShoppingCartStepDefs {
 
     ShoppingCartPage shoppingCartPage = new ShoppingCartPage();
+    LoginPage loginPage = new LoginPage();
 
     @And("The user add {string} to the shopping cart.")
     public void the_user_add_to_the_shopping_cart(String productName) {
         shoppingCartPage.clickToProduct(productName);
         shoppingCartPage.addToCartButton.click();
-        BrowserUtils.waitFor(3);
+        BrowserUtils.waitFor(2);
     }
 
     @Then("The user should see the shopping cart popup")
@@ -34,6 +36,7 @@ public class ShoppingCartStepDefs {
     @When("The user clicks on the Checkout button")
     public void the_user_clicks_on_the_checkout_button() {
         shoppingCartPage.clickToCheckoutButton();
+
     }
 
     @When("The user selected {string} option")
@@ -44,7 +47,6 @@ public class ShoppingCartStepDefs {
     @When("The user clicks on the Continue button")
     public void the_user_clicks_on_the_continue_button() {
         shoppingCartPage.clickVisibleContinue();
-
     }
 
     @Then("The user fills in all mandatory fields on the billing details.")
@@ -60,7 +62,6 @@ public class ShoppingCartStepDefs {
         shoppingCartPage.clickVisibleContinue();
         shoppingCartPage.termsAndConditionsCheckbox.click();
         shoppingCartPage.clickVisibleContinue();
-
     }
 
     @Then("The user should see the order confirmation message.")
@@ -71,5 +72,34 @@ public class ShoppingCartStepDefs {
 
     }
 
+    @When("The user logs in and verifies")
+    public void the_user_logs_in_and_verifies() {
+        loginPage.myAccountLink.click();
+        loginPage.login2();
+        loginPage.verifyLoginPageTitle();
+        loginPage.login3();
+        loginPage.verifyLoginSuccess();
+    }
 
+    @Then("the user verifies that the address in the Billing Details section is selected")
+    public void the_user_verifies_that_the_address_in_the_billing_details_section_is_selected() {
+        shoppingCartPage.verifyExistingAddressIsSelected();
+    }
+
+    @When("The user clicks Continue on the Delivery Details step")
+    public void the_user_clicks_continue_on_the_delivery_details_step() {
+        shoppingCartPage.verifyExistingAddressIsSelected();
+        shoppingCartPage.clickDeliveryDetailsContinue();
+    }
+    @Then("The user completes the Delivery Method step")
+    public void the_user_completes_the_delivery_method_step() {
+        shoppingCartPage.verifyFlatRateIsSelected();
+        shoppingCartPage.continueButtonFlatRate.click();
+    }
+    @Then("The user completes Payment Method step")
+    public void the_user_completes_payment_method_step() {
+     shoppingCartPage.verifyCashOnDeliveryIsSelected();
+        shoppingCartPage.termsAndConditionsCheckbox.click();
+        shoppingCartPage.continueButtonPaymentMethod.click();
+    }
 }

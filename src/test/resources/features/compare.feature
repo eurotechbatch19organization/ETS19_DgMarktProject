@@ -19,7 +19,7 @@ Feature: Cat-Subcategory-Compare this Product icon function Test
   Then The user should see the Health & Beauty page
   Then The user should see the Compare this Product icon appear on product hover
 
-  @wip
+
   Scenario: Users can add products to the comparison list by clicking the “Compare This Product” icon TC02-[US-21]
     When the user locates the Category section on the homepage
     And the user hovers over the Category section

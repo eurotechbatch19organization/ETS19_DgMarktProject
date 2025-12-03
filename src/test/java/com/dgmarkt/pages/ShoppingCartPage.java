@@ -59,6 +59,24 @@ public class ShoppingCartPage extends BasePage {
     @FindBy(xpath="//h1")
     private WebElement orderConfirmationMessage;
 
+    @FindBy(id="button-shipping-address")
+    private WebElement continueButtonDeliveryDetails;
+
+    @FindBy(xpath = "//input[@value='existing']")
+    private WebElement checkExistingAddress;
+
+    @FindBy(xpath = "//input[@value='flat.flat']")
+    private WebElement checkFlatRate;
+
+    @FindBy(xpath = "//input[@value='cod']")
+    private WebElement checkCashOnDelivery;
+
+    @FindBy(id="button-payment-method")
+    public WebElement continueButtonPaymentMethod;
+
+    @FindBy(id="button-shipping-method")
+    public WebElement continueButtonFlatRate;
+
     /**
      * Bu method verilen productName e sahip urune tiklar
      *
@@ -68,7 +86,7 @@ public class ShoppingCartPage extends BasePage {
         WebElement productLink = Driver.get().findElement(
                 By.xpath("//a[contains(text(), '" + productName + "')]")
         );
-        productLink.click();
+        BrowserUtils.clickWithJS(productLink);
     }
 
     /**
@@ -153,6 +171,19 @@ public class ShoppingCartPage extends BasePage {
         String actualMessage = orderConfirmationMessage.getText();
         Assert.assertEquals(expectedMessage, actualMessage);
 
+    }
+    public void clickDeliveryDetailsContinue() {
+        BrowserUtils.waitFor(2);
+        continueButtonDeliveryDetails.click();
+    }
+    public void verifyExistingAddressIsSelected() {
+        Assert.assertTrue(checkExistingAddress.isSelected());
+    }
+    public void verifyFlatRateIsSelected() {
+        Assert.assertTrue(checkFlatRate.isSelected());
+    }
+    public void verifyCashOnDeliveryIsSelected() {
+        Assert.assertTrue(checkCashOnDelivery.isSelected());
     }
 
 }
