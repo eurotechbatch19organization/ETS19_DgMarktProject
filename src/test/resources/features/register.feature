@@ -166,7 +166,7 @@ Feature: DGMarkt Registration
     And The user agrees to Privacy Policy
     And The user clicks Continue button
     Then The error message "Password must be between 4 and 20 characters!" should be displayed
-  @wipYasemin
+
   Scenario: Verify error when Password is longer than 20 characters - SDT19DM-65
     Given User is on the main login page and logs in
     And Navigates to My Account -> Register

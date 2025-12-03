@@ -6,6 +6,7 @@ import com.dgmarkt.utilities.Driver;
 import org.apache.poi.ss.formula.functions.T;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -17,6 +18,8 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static com.dgmarkt.utilities.Driver.driver;
 
 public abstract class BasePage {
     {
@@ -189,44 +192,21 @@ public abstract class BasePage {
      * bu metod Compare this Product butonunu click yapabilmek için hazırlanmıştır.
      */
 
-    public WebElement CompareBtn(){
-        return compareButton;
+    public WebElement compareButton(String productName) {
+        return Driver.get().findElement(By.xpath(
+                "//a[contains(text(),'" + productName + "')]/ancestor::div[contains(@class,'product-thumb')]//button[contains(@class,'compare')]"
+        ));
     }
+
+
 
     /**
      * bu metod ProductComparisonLinkBtn'a click yapabilmek için hazırlanmıştır.
      */
-
-
     public WebElement ProductComparisonLinkBtn(){
         return productComparisonLink;
     }
 
-    // Compare list ürün isimleri
-    @FindBy(css = "table.table-bordered td a strong")
-    private List<WebElement>productNames;
-
-    @FindBy(xpath = "//a/strong[text()='BaByliss 3663U - Hair rollers']")
-    private WebElement product;
-
-    /**
-     * bu metod ürünün Product Comparison sayfasına eklenip eklenmediğini kontrol eder.
-     * @param expectedProductName
-     */
-
-
-    public void verifyProductInCompareList(String expectedProductName) {
-
-       WebDriverWait wait = new WebDriverWait(Driver.get(), Duration.ofSeconds(5));
-       wait.until(ExpectedConditions.visibilityOfAllElements(productNames));
-
-       boolean found = productNames.stream()
-               .map(WebElement::getText)
-               .map(String::trim)
-               .anyMatch(name -> name.equalsIgnoreCase(expectedProductName));
-
-       Assert.assertTrue("Compare list içinde ürün bulunamadı: " + expectedProductName, found);
-   }
 
 
 }
