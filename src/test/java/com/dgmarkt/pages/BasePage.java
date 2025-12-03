@@ -80,8 +80,8 @@ public abstract class BasePage {
 
 
 
-    @FindBy(xpath = "//span[text()='My Account']")
-    private WebElement myAccountLink;
+  //  @FindBy(xpath = "//span[text()='My Account']")
+  //  private WebElement myAccountLink;
 
     @FindBy(id = "pt-logout-link")
     public WebElement logoutButton;
