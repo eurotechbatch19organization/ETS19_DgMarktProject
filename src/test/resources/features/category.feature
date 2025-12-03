@@ -21,29 +21,30 @@ Feature: Home Page Functionality
   Scenario: Navigating to the Health & Beauty Page via Category Hover-TC005-[US-12]
     When the user locates the Category section on the homepage
     And the user hovers over the Category section
-    And from the dropdown menu, the user clicks on the Health & Beauty subcategory
-    Then the user is directed to the Health & Beauty page
+    And The user clicks on "HEALTH & BEAUTY" Category
+    Then the user is directed to the "Health & Beauty" page
 
 
   Scenario: Navigating to the Televisions Page via Category Hover-TC006-[US-12]
     When the user locates the Category section on the homepage
     And the user hovers over the Category section
-    And from the dropdown menu, the user clicks on the Televisions subcategory
-    Then the user is directed to the Televisions page
+    And The user clicks on "TELEVISIONS" Category
+    Then the user is directed to the "Televisions" page
 
 
   Scenario: Navigating to the TV Accessories Page via Category Hover-TC007-[US-12]
     When the user locates the Category section on the homepage
     And the user hovers over the Category section
-    When from the dropdown menu, the user clicks on the TV Accessories subcategory
-    Then the user is directed to the TV Accessories page
+    And The user clicks on "TV ACCESSORIES" Category
+    Then the user is directed to the "TV Accessories" page
 
 
   Scenario: Navigating to the Networking Page via Category Hover-TC008-[US-12]
     When the user locates the Category section on the homepage
     And the user hovers over the Category section
-    When from the dropdown menu, the user clicks on the Networking subcategory
-    Then the user is directed to the Networking page
+    And The user clicks on "NETWORKING" Category
+    Then the user is directed to the "Networking" page
+
 
 
   Scenario: Viewing Category Submenus after Login-TC002-[US-12]

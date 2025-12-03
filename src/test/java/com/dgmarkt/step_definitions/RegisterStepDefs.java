@@ -24,7 +24,7 @@ public class RegisterStepDefs {
     @Given("Navigates to My Account -> Register")
     public void navigates_to_my_account_register() {
         loginPage.myAccountLink.click();
-        Driver.get().findElement(By.linkText("Register")).click();
+        register.registerLink.click();
     }
 
     @When("The user fills the registration form with valid data")
@@ -59,13 +59,10 @@ public class RegisterStepDefs {
 
     @Then("The user should see success message")
     public void the_user_should_see_success_message() throws InterruptedException {
-        Thread.sleep(3000);
-
-        System.out.println("Page source contains 'Created': " +
-                Driver.get().getPageSource().contains("Created"));
-
         Assert.assertTrue("Success message is not displayed!",
                 register.isSuccessMessageDisplayed());
+
+        System.out.println("Success message is displayed successfully!");
     }
 
     @Then("The user clicks continue on success popup")
@@ -268,18 +265,6 @@ public class RegisterStepDefs {
         register.enterEmail(faker.internet().emailAddress());
         register.enterPassword(shortPassword);
         register.enterPasswordConfirm(shortPassword);
-    }
-
-    @When("The user fills the registration form with Password longer than twenty characters")
-    public void the_user_fills_the_registration_form_with_password_longer_than_twenty_characters() {
-        String longPassword = faker.lorem().characters(21);
-
-        register.enterFirstName(faker.name().firstName());
-        register.enterLastName(faker.name().lastName());
-        register.enterEmail(faker.internet().emailAddress());
-        register.enterTelephone(faker.number().digits(11));
-        register.enterPassword(longPassword);
-        register.enterPasswordConfirm(longPassword);
     }
 
     @Then("The error message {string} should be displayed")
