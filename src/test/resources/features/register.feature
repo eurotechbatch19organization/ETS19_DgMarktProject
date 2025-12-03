@@ -3,7 +3,7 @@ Feature: DGMarkt Registration
   Background:
     Given User is on the main login page and logs in
     And Navigates to My Account -> Register
-
+  @wipYasemin
   Scenario: Successful registration - SDT19DM-36
     When The user fills the registration form with valid data
     And The user selects subscription as "No"
