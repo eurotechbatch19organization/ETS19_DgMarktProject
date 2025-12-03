@@ -4,6 +4,7 @@ import com.dgmarkt.pages.HealthAndBeautyPage;
 import com.dgmarkt.pages.HomePage;
 
 import com.dgmarkt.utilities.Driver;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
@@ -48,6 +49,21 @@ public class HomeStepDefs {
             System.out.println(submenu.getText());
         }
     }
+    @And("The user clicks on {string} Category")
+    public void the_user_clicks_on_category(String categoryName) {
+        homePage.clickToCategory(categoryName);
+    }
+
+    @Then("the user is directed to the {string} page")
+    public void the_user_is_directed_to_the_page(String expectedHeader) {
+        homePage.veriyfToSubMenuName(expectedHeader);
+    }
+
+
+
+
+
+
 
 
 

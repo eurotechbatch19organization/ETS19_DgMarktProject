@@ -20,7 +20,7 @@ Feature: Currency Scenario
     Then The user should see the shopping cart popup
     When The user clicks on the shopping cart link
 
-  @wip
+
   Scenario: (Without Login)Order Completion With Selected Currency
     When The user selects "Euro" from the dropdown
     And The user clicks on "HEALTH & BEAUTY" Category

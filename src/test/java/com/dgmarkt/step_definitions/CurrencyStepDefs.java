@@ -44,11 +44,7 @@ public class CurrencyStepDefs {
 
     }
 
-    @And("The user clicks on {string} Category")
-    public void the_user_clicks_on_category(String categoryName) {
-        homePage.clickToCategory(categoryName);
 
-    }
     @Then("The user verifies that the selected currency symbol {string} is displayed on the page.")
     public void the_user_verifies_that_the_selected_currency_symbol_is_displayed_on_the_page(String symbol) {
         homePage.verifyPricesContainSymbol(symbol);

@@ -91,6 +91,25 @@ public class LoginPage extends BasePage {
 
     }
 
+    public void login(String email, String password) {
+        emailBox.sendKeys(email);
+        passwordBox.sendKeys(password);
+        loginBtn.click();
+        closeNewsletterPopupIfExists();
+
+    }
+
+    /**
+     * change password test case lerim icin olusturdugum login methodu
+     */
+    public void loginWithSelda(){
+        emailBox2.sendKeys(ConfigurationReader.get("myChangeEmail"));
+        passwordBox2.sendKeys(ConfigurationReader.get("newChangePassword"));
+        login3Btn.click();
+       // closeNewsletterPopupIfExists();
+
+    }
+
     public void verifyLoginSuccess(){
         String actualPageTitle = CongratulationLoginSuccessfullyPageTitle.getText();
         String expectedPageTitle = " Congratulation! Login Successfully";
