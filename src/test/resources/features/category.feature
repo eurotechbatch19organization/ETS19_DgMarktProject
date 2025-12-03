@@ -46,6 +46,7 @@ Feature: Home Page Functionality
     Then the user is directed to the "Networking" page
 
 
+
   Scenario: Viewing Category Submenus after Login-TC002-[US-12]
     Given The user clicks on the My Account button
     When The user clicks on the Login2 button
