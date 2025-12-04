@@ -10,7 +10,7 @@ Feature: Password Change Functionality
     Then The user should see the Login or create an account page
 
 
-  @wip
+
   Scenario Outline: Verify that passwords with minimum 4 characters are accepted successfully - TC005 [US-08]
     Given The user Login with credentials
     And the user selects "My Account" from the submenu
