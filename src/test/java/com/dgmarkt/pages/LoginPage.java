@@ -110,16 +110,6 @@ public class LoginPage extends BasePage {
 
     }
 
-    /**
-     * passwordumu degistridikten sonra guncel parolamla login olabilmek icin
-     */
-    public void loginWithNewPass(){
-        emailBox2.sendKeys(ConfigurationReader.get("myChangeEmail"));
-        passwordBox2.sendKeys(ConfigurationReader.get("myNewPassword"));
-        login3Btn.click();
-        // closeNewsletterPopupIfExists();
-    }
-
     public void verifyLoginSuccess(){
         String actualPageTitle = CongratulationLoginSuccessfullyPageTitle.getText();
         String expectedPageTitle = " Congratulation! Login Successfully";

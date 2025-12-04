@@ -24,11 +24,9 @@ public class ChangePasswordStepDefs {
 
     HomePage homePage = new HomePage();
     PasswordChangePage passwordChangePage = new PasswordChangePage();
-    LoginPage loginPage= new LoginPage();
 
     @Given("the user clicks on the {string} menu")
     public void the_user_clicks_on_the_menu(String myAccount) {
-        homePage.closeNewsletterPopup();
         homePage.clickMyAccountLink(myAccount);
     }
 
@@ -85,29 +83,6 @@ public class ChangePasswordStepDefs {
         String originalPassword = ConfigurationReader.get("newChangePassword");
         passwordChangePage.clickNewChangePassword(originalPassword);
     }
-
-    @When("The user logs out of their account")
-    public void the_user_logs_out_of_their_account() {
-        homePage.logoutwithSelda();
-    }
-    @When("The user logs in again using the new password {string}")
-    public void the_user_logs_in_again_using_the_new_password(String newPass) {
-        loginPage.closeNewsletterPopupIfExists();
-        BrowserUtils.waitFor(2);
-        loginPage.loginWithNewPass();
-    }
-
-    @Then("The user navigates to the Password section and resets the password")
-    public void the_user_navigates_to_the_password_section_and_resets_the_password() {
-        homePage.clickMyAccountLink("My Account");
-        homePage.clickSection("Password");
-        waitForVisibility(passwordChangePage.newPasswordInput, 10);
-        String originalPassword = ConfigurationReader.get("newChangePassword");
-        passwordChangePage.clickNewChangePassword(originalPassword);
-    }
-
-
-
 }
 
 
