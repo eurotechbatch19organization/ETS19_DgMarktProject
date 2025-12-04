@@ -7,6 +7,7 @@ import com.dgmarkt.utilities.Driver;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -19,6 +20,8 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static com.dgmarkt.utilities.Driver.driver;
 
 public abstract class BasePage {
     {
@@ -279,7 +282,13 @@ public abstract class BasePage {
 
     public WebElement CompareBtn() {
         return compareButton;
+    public WebElement compareButton(String productName) {
+        return Driver.get().findElement(By.xpath(
+                "//a[contains(text(),'" + productName + "')]/ancestor::div[contains(@class,'product-thumb')]//button[contains(@class,'compare')]"
+        ));
     }
+
+
 
     /**
      * bu metod ProductComparisonLinkBtn'a click yapabilmek için hazırlanmıştır.
@@ -315,6 +324,10 @@ public abstract class BasePage {
 
         Assert.assertTrue("Compare list içinde ürün bulunamadı: " + expectedProductName, found);
     }
+    public WebElement ProductComparisonLinkBtn(){
+        return productComparisonLink;
+    }
+
 
     /**
      * category menusunun alt submenulerine tikladigimizda SG
