@@ -7,6 +7,8 @@ import com.dgmarkt.utilities.Driver;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -85,13 +87,25 @@ public abstract class BasePage {
     @FindBy(id = "pt-logout-link")
     public WebElement logoutButton;
 
-    @FindBy(xpath = "(//span[text()='Continue'])[2]")
+   @FindBy(xpath = "(//span[text()='Continue'])[2]")
     private WebElement continueButton;
+
+    @FindBy(xpath = "//a[normalize-space()='Continue' and contains(@class,'btn-primary')]")
+    private WebElement continueBtn;
+
+
+
+    public void logoutwithSelda() {
+        myAccountLink.click();
+        logoutButton.click();
+        BrowserUtils.waitForVisibility(continueBtn,5);
+        continueBtn.click();
+    }
 
     public void logout() {
         myAccountLink.click();
         logoutButton.click();
-        BrowserUtils.waitForVisibility(continueButton, 3);
+        BrowserUtils.waitForVisibility(continueButton,5);
         continueButton.click();
     }
 
@@ -291,10 +305,29 @@ public abstract class BasePage {
      * @param sectionName
      */
     public void clickSection(String sectionName) {
-        WebElement section = Driver.get().findElement(
+        WebDriver driver = Driver.get();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        // 1. Elementi bul
+        WebElement section = wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//a[normalize-space()='" + sectionName + "']")
-        );
-        section.click();
+        ));
+
+        try {
+            // 2. Görünür değilse scroll et
+            ((JavascriptExecutor) driver).executeScript(
+                    "arguments[0].scrollIntoView({block: 'center'});", section);
+
+            // 3. Clickable olana kadar bekle
+            wait.until(ExpectedConditions.elementToBeClickable(section));
+
+            // 4. Normal click dene
+            section.click();
+
+        } catch (Exception e) {
+            // 5. Normal click olmazsa JS Click fallback
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", section);
+        }
     }
 
     /**
@@ -303,7 +336,30 @@ public abstract class BasePage {
     public void clickMyAccountLink(String myAccount) {
         BrowserUtils.waitFor(1);
         wait.until(ExpectedConditions.visibilityOf(myAccountLink));
-        clickMyAccountToSubMenu("Password");
+        closeLogoutPopupIfPresent();
+        myAccountLink.click();  // önce menüyü aç
+
+        if(submenuName != null && !submenuName.isEmpty()){
+            clickMyAccountToSubMenu(submenuName);
+        }
+    }
+
+
+
+    /**
+     * bu methodu kullanici logout olup tekrar login olmak istediginde
+     * cikan popup i kapatmak icin kullaniyoruz.SG
+     */
+    public void closeLogoutPopupIfPresent() {
+        try {
+            WebElement popupCloseBtn = Driver.get().findElement(By.xpath("//button[@class='close']"));
+            if (popupCloseBtn.isDisplayed()) {
+                BrowserUtils.waitFor(1);
+                popupCloseBtn.click();
+            }
+        } catch (Exception e) {
+            // popup yoksa hiçbir şey yapma
+        }
     }
 
     /**

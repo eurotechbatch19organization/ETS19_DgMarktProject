@@ -1,6 +1,7 @@
 package com.dgmarkt.step_definitions;
 
 import com.dgmarkt.pages.LoginPage;
+import com.dgmarkt.utilities.BrowserUtils;
 import com.dgmarkt.utilities.ConfigurationReader;
 import com.dgmarkt.utilities.Driver;
 import io.cucumber.java.en.Given;
@@ -9,6 +10,8 @@ import io.cucumber.java.en.When;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import static com.dgmarkt.utilities.BrowserUtils.waitForVisibility;
 
@@ -40,6 +43,16 @@ public class LoginStepDefs {
 
     @Then("The user clicks on the My Account button")
     public void the_user_clicks_on_the_my_account_button() throws InterruptedException {
+        try {
+            WebElement popupClose = Driver.get().findElement(By.cssSelector("a.a-close-newsletter, a.a-close-newsletter-full"));
+            if (popupClose.isDisplayed()) {
+                BrowserUtils.clickWithJS(popupClose);
+                BrowserUtils.waitFor(1);
+            }
+        } catch (Exception ignored) {}
+
+        // 2. sonra My Account'a güvenli şekilde tıkla
+        BrowserUtils.waitForClickablility(loginPage.myAccountLink, 5);
         loginPage.myAccountLink.click();
 
     }
