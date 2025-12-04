@@ -33,26 +33,6 @@ public class PasswordChangePage extends BasePage{
 
 
 
-    public WebElement getChangePasswordHeader() {
-        return changePasswordHeader;
-    }
-    public WebElement getNewPasswordInput() {
-        return newPasswordInput;
-    }
-    public WebElement getPasswordConfirmInput() {
-        return passwordConfirmInput;
-    }
-    public WebElement getContinueBtn() {
-        return continueBtn;
-    }
-    public WebElement getSuccessMessage() {
-        return successMessage;
-    }
-    public WebElement getAccountLink() {
-        return Driver.get().findElement(By.xpath("//a[normalize-space()='Account']"));
-    }
-
-
     /**
      * cift parametreli versiyonu farkli parolalar icin kullanilir
      * @param newPassword,  confirmPassword
