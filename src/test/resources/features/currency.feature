@@ -48,7 +48,7 @@ Feature: Currency Scenario
     When The user selects "Euro" from the dropdown
     Then The user should see the currency symbol "€" displayed on the page
 
-
+  @wip
   Scenario: (With Login) Order Completion With Selected Currency / TC00(2,3,4)-[US-22]
     When The user logs in and verifies
     And The user clicks on the currency dropdown
