@@ -81,8 +81,6 @@ public abstract class BasePage {
     private WebElement closeNewsletterButton;
 
 
-    //  @FindBy(xpath = "//span[text()='My Account']")
-    //  private WebElement myAccountLink;
 
     @FindBy(id = "pt-logout-link")
     public WebElement logoutButton;
@@ -116,47 +114,10 @@ public abstract class BasePage {
         return healthAndBeautySubmenu;
     }
 
-    public WebElement getTelevisionsSubmenu() {
-        return televisionsSubmenu;
-    }
-
-    public WebElement getTvAccessoriesSubmenu() {
-        return tvAccessoriesSubmenu;
-    }
-
-    public WebElement getNetworkingSubmenu() {
-        return networkingSubmenu;
-    }
-
     public WebElement getHealthAndBeautyHeader() {
         return healthAndBeautyHeader;
     }
 
-    public WebElement getTelevisionsHeader() {
-        return televisionsHeader;
-    }
-
-    public WebElement getTvAccessoriesHeader() {
-        return tvAccessoriesHeader;
-    }
-
-    public WebElement getNetworkingHeader() {
-        return networkingHeader;
-    }
-
-
-    public List<WebElement> getAllSubMenus() {
-        return MyAccountAllSubMenus;
-    }
-
-    public WebElement getMyAccountHeader() {
-        return myAccountHeader;
-    }
-
-
-    public WebElement getCategoryMenu() {
-        return categoryMenu;
-    }
 
     public List<WebElement> getSubmenuList() {
         return submenuList;
@@ -276,24 +237,16 @@ public abstract class BasePage {
         actions.moveToElement(compareButton).perform();
     }
 
-    /**
-     * bu metod Compare this Product butonunu click yapabilmek için hazırlanmıştır.
-     */
 
-    public WebElement CompareBtn() {
-        return compareButton;
     public WebElement compareButton(String productName) {
         return Driver.get().findElement(By.xpath(
                 "//a[contains(text(),'" + productName + "')]/ancestor::div[contains(@class,'product-thumb')]//button[contains(@class,'compare')]"
         ));
     }
 
-
-
     /**
      * bu metod ProductComparisonLinkBtn'a click yapabilmek için hazırlanmıştır.
      */
-
 
     public WebElement ProductComparisonLinkBtn() {
         return productComparisonLink;
@@ -302,32 +255,6 @@ public abstract class BasePage {
     // Compare list ürün isimleri
     @FindBy(css = "table.table-bordered td a strong")
     private List<WebElement> productNames;
-
-    @FindBy(xpath = "//a/strong[text()='BaByliss 3663U - Hair rollers']")
-    private WebElement product;
-
-    /**
-     * bu metod ürünün Product Comparison sayfasına eklenip eklenmediğini kontrol eder.
-     *
-     * @param expectedProductName
-     */
-
-
-    public void verifyProductInCompareList(String expectedProductName) {
-
-        WebDriverWait wait = new WebDriverWait(Driver.get(), Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.visibilityOfAllElements(productNames));
-        boolean found = productNames.stream()
-                .map(WebElement::getText)
-                .map(String::trim)
-                .anyMatch(name -> name.equalsIgnoreCase(expectedProductName));
-
-        Assert.assertTrue("Compare list içinde ürün bulunamadı: " + expectedProductName, found);
-    }
-    public WebElement ProductComparisonLinkBtn(){
-        return productComparisonLink;
-    }
-
 
     /**
      * category menusunun alt submenulerine tikladigimizda SG
