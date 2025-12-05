@@ -109,6 +109,20 @@ public class ChangePasswordStepDefs {
 
     }
 
+    @When("The user enters {string} as new password and {string} as confirm password and clicks Continue")
+    public void the_user_enters_as_new_password_and_as_confirm_password_and_clicks_continue(String newPassword, String confirmPassword) {
+        passwordChangePage.clickNewChangePassword(newPassword, confirmPassword);
+
+    }
+    @Then("The user should see the warning message {string}")
+    public void the_user_should_see_the_warning_message(String expectedWarningMessage) {
+        WebDriverWait wait = new WebDriverWait(Driver.get(), Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOf(passwordChangePage.warningMessage));
+        String actualMessage = passwordChangePage.warningMessage.getText().trim();
+        Assert.assertEquals(actualMessage, expectedWarningMessage);
+
+    }
+
 }
 
 
