@@ -91,14 +91,16 @@ public class ShoppingCartStepDefs {
         shoppingCartPage.verifyExistingAddressIsSelected();
         shoppingCartPage.clickDeliveryDetailsContinue();
     }
+
     @Then("The user completes the Delivery Method step")
     public void the_user_completes_the_delivery_method_step() {
         shoppingCartPage.verifyFlatRateIsSelected();
         shoppingCartPage.continueButtonFlatRate.click();
     }
+
     @Then("The user completes Payment Method step")
     public void the_user_completes_payment_method_step() {
-     shoppingCartPage.verifyCashOnDeliveryIsSelected();
+        shoppingCartPage.verifyCashOnDeliveryIsSelected();
         shoppingCartPage.termsAndConditionsCheckbox.click();
         shoppingCartPage.continueButtonPaymentMethod.click();
     }

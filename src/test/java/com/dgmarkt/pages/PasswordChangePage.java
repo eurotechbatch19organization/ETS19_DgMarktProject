@@ -13,8 +13,6 @@ import java.time.Duration;
 
 public class PasswordChangePage extends BasePage{
 
-    @FindBy(xpath = "//a[normalize-space()='Account']")
-    public WebElement accountLink;
 
     @FindBy(xpath = "//div[contains(@class,'alert-success')]")
     private WebElement successMessage;
@@ -23,7 +21,7 @@ public class PasswordChangePage extends BasePage{
     private WebElement changePasswordHeader;
 
     @FindBy(id = "input-password")
-    public WebElement newPasswordInput;
+    public WebElement newPasswordInput;     // tekrar bakılacak private
 
     @FindBy(id= "input-confirm")
     private WebElement passwordConfirmInput;
@@ -84,9 +82,6 @@ public class PasswordChangePage extends BasePage{
         );
     }
 
-    public WebElement getFreshAccountLink() {
-        return Driver.get().findElement(By.xpath("//a[normalize-space()='Account']"));
-    }
 
 
 }
