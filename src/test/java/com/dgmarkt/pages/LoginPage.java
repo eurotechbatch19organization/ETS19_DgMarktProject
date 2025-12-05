@@ -95,6 +95,7 @@ public class LoginPage extends BasePage {
         emailBox.sendKeys(email);
         passwordBox.sendKeys(password);
         loginBtn.click();
+        closeNewsletterPopupIfExists();
     }
 
     /**
@@ -103,6 +104,15 @@ public class LoginPage extends BasePage {
     public void loginWithSelda(){
         emailBox2.sendKeys(ConfigurationReader.get("myChangeEmail"));
         passwordBox2.sendKeys(ConfigurationReader.get("newChangePassword"));
+        login3Btn.click();
+    }
+
+    /**
+     * passwordumu degistridikten sonra guncel parolamla login olabilmek icin
+     */
+    public void loginWithNewPass(){
+        emailBox2.sendKeys(ConfigurationReader.get("myChangeEmail"));
+        passwordBox2.sendKeys(ConfigurationReader.get("myNewPassword"));
         login3Btn.click();
     }
 

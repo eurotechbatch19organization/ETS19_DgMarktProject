@@ -9,7 +9,7 @@ Feature: Password Change Functionality
     Then The user should see the Login or create an account page
 
 
-  @wip
+
   Scenario Outline: Verify that passwords with minimum 4 characters are accepted successfully - TC005 [US-08]
     Given The user Login with credentials
     And the user selects "My Account" from the submenu
@@ -26,4 +26,18 @@ Feature: Password Change Functionality
       | abcd     |
       | @@@@     |
 
-
+  @wip
+  Scenario: User updates their password and successfully logs in using the new password-TC001-[US-08]
+    Given The user Login with credentials
+    And the user selects "My Account" from the submenu
+    Then the user confirms they are on the "Account" page
+    When the user clicks on the "Password" section
+    Then the user confirms they are on the "Change Password" page
+    Then the user enters "sld4321" into the password fields
+    Then the user sees a confirmation message stating "Success: Your password has been successfully updated."
+    When The user logs out of their account
+    And The user clicks on the My Account button
+    And The user clicks on the Login2 button
+    And The user logs in again using the new password "sld4321"
+    Then The user verifies Login Successful message is displayed
+    Then The user navigates to the Password section and resets the password
