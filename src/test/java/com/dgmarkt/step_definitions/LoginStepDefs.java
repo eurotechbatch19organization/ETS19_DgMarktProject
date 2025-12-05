@@ -17,20 +17,20 @@ public class LoginStepDefs {
     LoginPage loginPage = new LoginPage();
 
 
-
     @Given("User is on the main login page")
     public void user_is_on_the_main_login_page() {
         Driver.get().get(ConfigurationReader.get("url"));
-
     }
+
     @When("The user enters valid email and password and clicks the Login button")
     public void the_user_enters_valid_email_and_password_and_clicks_the_login_button() {
         loginPage.login();
     }
+
     @When("Closes the newsletter popup if it appears")
     public void closes_the_newsletter_popup_if_it_appears() {
-
     }
+
     @Then("The user should see the main page")
     public void the_user_should_see_the_main_page() {
         waitForVisibility(loginPage.myAccountLink, 10);
@@ -64,16 +64,14 @@ public class LoginStepDefs {
 
     @Then("The user verifies Login Successful message is displayed")
     public void the_user_verifies_login_successful_message_is_displayed() {
-            loginPage.verifyLoginSuccess();
+        loginPage.verifyLoginSuccess();
 
     }
 
     @Then("The user Login with credentials")
     public void the_user_login_with_credentials() {
-      loginPage.loginWithSelda();
+        loginPage.loginWithSelda();
     }
-
-
 
 
 }
