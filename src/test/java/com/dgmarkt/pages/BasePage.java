@@ -20,6 +20,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.dgmarkt.utilities.Driver.driver;
 
@@ -109,6 +110,10 @@ public abstract class BasePage {
 
     @FindBy(css = ".price")
     private List<WebElement> productPriceElements;
+
+    @FindBy(css = ".rating .fa.fa-stack")
+    private List<WebElement> productRatingElements;
+
 
     public WebElement getHealthAndBeautySubmenu() {
         return healthAndBeautySubmenu;
@@ -351,6 +356,11 @@ public abstract class BasePage {
                     .replace("£", "")
                     .replace(",", "")
                     .trim();
+            try {
+                prices.add(Double.parseDouble(priceText));
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid price format: " + element.getText());
+            }
         }
         return prices;
     }
@@ -362,6 +372,39 @@ public abstract class BasePage {
         clickToCategory(categoryName);
         BrowserUtils.waitFor(2);
         veriyfToSubMenuName(categoryName);
+    }
+
+    /**
+     * Ürünlerin rating değerlerini döndürür
+     */
+    public List<Double> getProductRatings() {
+        List<Double> ratings = new ArrayList<>();
+
+        for (WebElement element : productRatingElements) {
+            String ratingText = element.getAttribute("data-rating");
+            ratings.add(ratingText != null ? Double.parseDouble(ratingText) : 0.0);
+        }
+
+        return ratings;
+    }
+
+   /**
+    * Ürünlerin model değerlerini döndürür
+    * Not: Sitede Model sıralaması ürün ismine göre yapıldığı için getProductNames() kullanılıyor
+    */
+    public List<String> getProductModels() {
+        return getProductNames();
+    }
+
+    /**
+     * Bu method Sort By dropdown'da seçili olan option'ın beklenenle aynı olduğunu doğrular
+     */
+    public void verifySelectedSortOption(String expectedSortType) {
+        Assert.assertEquals(
+                "Sort By dropdown does not show the correct selected option!",
+                expectedSortType,
+                getSelectedSortByOption()
+        );
     }
 }
 

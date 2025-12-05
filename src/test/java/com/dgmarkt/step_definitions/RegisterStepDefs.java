@@ -24,7 +24,7 @@ public class RegisterStepDefs {
     @Given("Navigates to My Account -> Register")
     public void navigates_to_my_account_register() {
         loginPage.myAccountLink.click();
-        register.registerLink.click();
+        register.registerLink.click();  //ilgili menuye gitme methodu kullanilacak
     }
 
     @When("The user fills the registration form with valid data")
