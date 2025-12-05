@@ -95,8 +95,6 @@ public class LoginPage extends BasePage {
         emailBox.sendKeys(email);
         passwordBox.sendKeys(password);
         loginBtn.click();
-        closeNewsletterPopupIfExists();
-
     }
 
     /**
@@ -106,8 +104,6 @@ public class LoginPage extends BasePage {
         emailBox2.sendKeys(ConfigurationReader.get("myChangeEmail"));
         passwordBox2.sendKeys(ConfigurationReader.get("newChangePassword"));
         login3Btn.click();
-       // closeNewsletterPopupIfExists();
-
     }
 
     public void verifyLoginSuccess(){
