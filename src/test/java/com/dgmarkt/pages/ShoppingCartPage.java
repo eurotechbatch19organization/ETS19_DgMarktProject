@@ -51,10 +51,10 @@ public class ShoppingCartPage extends BasePage {
     private WebElement postcode;
 
     @FindBy(xpath = "//input[@name='agree']")
-    public WebElement termsAndConditionsCheckbox;
+    public WebElement termsAndConditionsCheckbox;   // private yapıalrak ilerlenecek
 
     @FindBy(id="button-confirm")
-    public WebElement confirmOrderButton;
+    public WebElement confirmOrderButton;           // private yapıalrak ilerlenecek
 
     @FindBy(xpath="//h1")
     private WebElement orderConfirmationMessage;
@@ -72,10 +72,10 @@ public class ShoppingCartPage extends BasePage {
     private WebElement checkCashOnDelivery;
 
     @FindBy(id="button-payment-method")
-    public WebElement continueButtonPaymentMethod;
+    public WebElement continueButtonPaymentMethod;      // private yapıalrak ilerlenecek
 
     @FindBy(id="button-shipping-method")
-    public WebElement continueButtonFlatRate;
+    public WebElement continueButtonFlatRate;           // private yapıalrak ilerlenecek
 
     /**
      * Bu method verilen productName e sahip urune tiklar

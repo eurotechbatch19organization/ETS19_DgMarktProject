@@ -3,7 +3,6 @@ Feature: Password Change Functionality
   Background:
     Given User is on the main login page
     When The user enters valid email and password and clicks the Login button
-    And Closes the newsletter popup if it appears
     Then The user should see the main page
     And The user clicks on the My Account button
     And The user clicks on the Login2 button

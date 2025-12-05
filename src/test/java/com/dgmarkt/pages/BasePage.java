@@ -3,11 +3,8 @@ package com.dgmarkt.pages;
 import com.dgmarkt.utilities.BrowserUtils;
 import com.dgmarkt.utilities.ConfigurationReader;
 import com.dgmarkt.utilities.Driver;
-
-
 import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -15,14 +12,11 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.dgmarkt.utilities.Driver.driver;
 
 public abstract class BasePage {
     {
@@ -45,41 +39,15 @@ public abstract class BasePage {
     @FindBy(xpath = "(//a[contains(text(),'Health & Beauty')])[1]")
     private WebElement healthAndBeautySubmenu;
 
-    @FindBy(xpath = "(//a[contains(text(),'Televisions')])[1]")
-    private WebElement televisionsSubmenu;
-
-    @FindBy(xpath = "(//a[contains(text(),'TV Accessories')])[1]")
-    private WebElement tvAccessoriesSubmenu;
-
-    @FindBy(xpath = "(//a[contains(text(),'Networking')])[1]")
-    private WebElement networkingSubmenu;
-
     @FindBy(xpath = "//h1[text()='Health & Beauty']")
     private WebElement healthAndBeautyHeader;
 
-    @FindBy(xpath = "//h1[text()='Televisions']")
-    private WebElement televisionsHeader;
-
-    @FindBy(xpath = "//h1[text()='TV Accessories']")
-    private WebElement tvAccessoriesHeader;
-
-    @FindBy(xpath = "//h1[text()='Networking']")
-    private WebElement networkingHeader;
 
     @FindBy(css = "a[title='My Account']")
     private WebElement myAccountLink;
 
-    @FindBy(xpath = "//ul[@class='dropdown-menu dropdown-menu-right pt-account']/li")
-    private List<WebElement> MyAccountAllSubMenus;
-
-    @FindBy(xpath = "(//a[text()='My Account'])[1]")
-    private WebElement myAccountHeader;
-
     @FindBy(xpath = "//span[text()='Currency']")
     private WebElement currencyDropdown;
-
-    @FindBy(css = "a.a-close-newsletter")
-    private WebElement closeNewsletterButton;
 
 
 
