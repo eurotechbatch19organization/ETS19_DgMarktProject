@@ -77,6 +77,7 @@ public class LoginPage extends BasePage {
 
 
     public void verifyLoginPageTitle(){
+        wait.until(ExpectedConditions.visibilityOf(loginOrCreateAnAccountPageTitle));
         String actualPageTitle = loginOrCreateAnAccountPageTitle.getText();
         String expectedPageTitle = "Login or create an account";
         Assert.assertEquals(expectedPageTitle,actualPageTitle);
