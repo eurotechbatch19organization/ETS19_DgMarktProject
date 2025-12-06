@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 
 public class LoginPage extends BasePage {
@@ -77,6 +78,7 @@ public class LoginPage extends BasePage {
 
 
     public void verifyLoginPageTitle(){
+        wait.until(ExpectedConditions.visibilityOf(loginOrCreateAnAccountPageTitle));
         String actualPageTitle = loginOrCreateAnAccountPageTitle.getText();
         String expectedPageTitle = "Login or create an account";
         Assert.assertEquals(expectedPageTitle,actualPageTitle);
@@ -95,6 +97,7 @@ public class LoginPage extends BasePage {
         emailBox.sendKeys(email);
         passwordBox.sendKeys(password);
         loginBtn.click();
+        closeNewsletterPopupIfExists();
     }
 
     /**
@@ -103,6 +106,15 @@ public class LoginPage extends BasePage {
     public void loginWithSelda(){
         emailBox2.sendKeys(ConfigurationReader.get("myChangeEmail"));
         passwordBox2.sendKeys(ConfigurationReader.get("newChangePassword"));
+        login3Btn.click();
+    }
+
+    /**
+     * passwordumu degistridikten sonra guncel parolamla login olabilmek icin
+     */
+    public void loginWithNewPass(){
+        emailBox2.sendKeys(ConfigurationReader.get("myChangeEmail"));
+        passwordBox2.sendKeys(ConfigurationReader.get("myNewPassword"));
         login3Btn.click();
     }
 

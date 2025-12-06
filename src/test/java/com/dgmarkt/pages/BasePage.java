@@ -5,6 +5,8 @@ import com.dgmarkt.utilities.ConfigurationReader;
 import com.dgmarkt.utilities.Driver;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -49,7 +51,8 @@ public abstract class BasePage {
     @FindBy(xpath = "//span[text()='Currency']")
     private WebElement currencyDropdown;
 
-
+    @FindBy(css = "a.a-close-newsletter")
+    private WebElement closeNewsletterButton;
 
     @FindBy(id = "pt-logout-link")
     public WebElement logoutButton;
@@ -57,11 +60,28 @@ public abstract class BasePage {
     @FindBy(xpath = "(//span[text()='Continue'])[2]")
     private WebElement continueButton;
 
+    @FindBy(xpath = "//ul[@class='dropdown-menu dropdown-menu-right pt-account']/li")
+    private List<WebElement> MyAccountAllSubMenus;
+
+    @FindBy(xpath = "(//a[text()='My Account'])[1]")
+    private WebElement myAccountHeader;
+
+    @FindBy(xpath = "//a[normalize-space()='Continue' and contains(@class,'btn-primary')]")
+    private WebElement continueBtn;
+
+
     public void logout() {
         myAccountLink.click();
         logoutButton.click();
         BrowserUtils.waitForVisibility(continueButton, 3);
         continueButton.click();
+    }
+
+    public void logoutwithSelda() {
+        myAccountLink.click();
+        logoutButton.click();
+        BrowserUtils.waitForVisibility(continueBtn,5);
+        continueBtn.click();
     }
 
     @FindBy(xpath = "//a[contains(@href, 'product_id=7064674')]/following-sibling::div[@class='button-group']//button[@class='button-compare']")
@@ -264,20 +284,33 @@ public abstract class BasePage {
      * @param sectionName
      */
     public void clickSection(String sectionName) {
-        WebElement section = Driver.get().findElement(
+        WebDriver driver = Driver.get();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        // 1. Elementi bul
+        WebElement section = wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//a[normalize-space()='" + sectionName + "']")
-        );
-        section.click();
+        ));
+
+        try {
+            // 2. Görünür değilse scroll et
+            ((JavascriptExecutor) driver).executeScript(
+                    "arguments[0].scrollIntoView({block: 'center'});", section);
+
+            // 3. Clickable olana kadar bekle
+            wait.until(ExpectedConditions.elementToBeClickable(section));
+
+            // 4. Normal click dene
+            section.click();
+
+        } catch (Exception e) {
+            // 5. Normal click olmazsa JS Click fallback
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", section);
+        }
     }
 
-    /**
-     * ana sayfadaki My Account linkine tiklar SG
-     */
-    public void clickMyAccountLink(String myAccount) {
-        BrowserUtils.waitFor(1);
-        wait.until(ExpectedConditions.visibilityOf(myAccountLink));
-        clickMyAccountToSubMenu("Password");
-    }
+
+
 
     /**
      * Bu method Sort By dropdown'ından istenen sorting tipini seçer
