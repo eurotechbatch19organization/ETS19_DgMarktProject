@@ -26,7 +26,7 @@ Feature: Password Change Functionality
       | abcd     |
       | @@@@     |
 
-  @wip
+
   Scenario: User updates their password and successfully logs in using the new password-TC001-[US-08]
     Given The user Login with credentials
     And the user selects "My Account" from the submenu
@@ -41,3 +41,23 @@ Feature: Password Change Functionality
     And The user logs in again using the new password "sld4321"
     Then The user verifies Login Successful message is displayed
     Then The user navigates to the Password section and resets the password
+
+@bug
+  Scenario: The system incorrectly accepts a password longer than 20 characters-BUG-TC003-[US-08]
+    Given The user Login with credentials
+    And the user selects "My Account" from the submenu
+    Then the user confirms they are on the "Account" page
+    When the user clicks on the "Password" section
+    Then the user confirms they are on the "Change Password" page
+    Then the user enters "1234567890yxcvbnmasdfghjklertz012345678" into the password fields
+    Then the user should see the warning message "Password must be between 4 and 20 characters!"
+
+@bug
+Scenario: Preventing the User from Setting the Current Password as the New Password-BUG-TC004-[US-08]
+  Given The user Login with credentials
+  And the user selects "My Account" from the submenu
+  Then the user confirms they are on the "Account" page
+  When the user clicks on the "Password" section
+  Then the user confirms they are on the "Change Password" page
+  Then the user enters "Selda2712!1212" into the password fields
+  Then the user should see the warning message "The new password cannot be the same as your current password."

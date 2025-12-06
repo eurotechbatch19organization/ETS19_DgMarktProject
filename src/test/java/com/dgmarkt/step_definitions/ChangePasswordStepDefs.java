@@ -109,6 +109,11 @@ public class ChangePasswordStepDefs {
 
     }
 
+    @Then("the user should see the warning message {string}")
+    public void the_user_should_see_the_warning_message(String expectedWarningMessage) {
+
+    }
+
 }
 
 
