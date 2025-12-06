@@ -30,6 +30,9 @@ public class PasswordChangePage extends BasePage{
     @FindBy(xpath = "//input[@value='Continue']")
     private WebElement continueBtn;
 
+    @FindBy(css = "div.text-danger")
+    public WebElement warningMessage;
+
     // ------------ SCROLL -------------
     private void scrollIntoView(WebElement element) {
         ((JavascriptExecutor) Driver.get()).executeScript(
