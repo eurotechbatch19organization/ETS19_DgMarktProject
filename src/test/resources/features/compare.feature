@@ -1,4 +1,4 @@
-@wip
+
 Feature: Cat-Subcategory-Compare this Product icon function Test
 
   Background:
