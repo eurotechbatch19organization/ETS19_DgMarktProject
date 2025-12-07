@@ -1,3 +1,4 @@
+@wip
 Feature: Password Change Functionality
 
   Background:
@@ -37,12 +38,23 @@ Feature: Password Change Functionality
     Then The user verifies Login Successful message is displayed
     Then The user navigates to the Password section and resets the password
 
-@wip
+
   Scenario: Verify warning message for mismatched or incomplete password confirmation-TC006-[US-08]
     When The user enters "sld4321" as new password and "sda432" as confirm password and clicks Continue
     Then The user should see the warning message "Password confirmation does not match password!"
 
-  @wip
+
   Scenario: Verify warning when the user enters a password shorter than 4 characters-TC002-[US-08]
     When The user enters "123" as new password and "123" as confirm password and clicks Continue
     Then The user should see the warning message "Password must be between 4 and 20 characters!"
+
+
+Scenario: The System Should Warn the User When Attempting to Reuse the Current Password as the New Password-(BUG)-TC004-[US-08]
+  Then the user enters "1234.Asdf" into the password fields
+  Then The user should verify that the warning message is "The new password cannot be the same as your current password."
+
+
+  @LongPasswordNegative
+  Scenario: The system does not reject an over-limit password during the password change process-(BUG)-TC003-[US-08]
+  Then the user enters "1234567890yxcvbnmasdfghjklertz012345678" into the password fields
+    Then The user should verify that the warning message is "Password must be between 4 and 20 characters!"

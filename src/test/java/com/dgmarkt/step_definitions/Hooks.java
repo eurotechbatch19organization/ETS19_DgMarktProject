@@ -1,5 +1,7 @@
 package com.dgmarkt.step_definitions;
 
+import com.dgmarkt.pages.PasswordChangePage;
+import com.dgmarkt.utilities.ConfigurationReader;
 import com.dgmarkt.utilities.Driver;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -20,7 +22,7 @@ public class Hooks {
 
     }
 
-    @After
+    @After(order=0)
     public void tearDown(Scenario scenario){
         if (scenario.isFailed()){
             final byte[] screenshot=((TakesScreenshot)Driver.get()).getScreenshotAs(OutputType.BYTES);
@@ -28,5 +30,18 @@ public class Hooks {
         }
       Driver.closeDriver();
     }
+
+    @After(value="@LongPasswordNegative",order=1)
+            public void tearDownPasswordChange(){
+    PasswordChangePage passwordChangePage= new PasswordChangePage();
+            // Password sayfasına geri dön
+            passwordChangePage.clickSection("Password");
+
+    // Orijinal şifreyi geri yaz
+    passwordChangePage.resetToOriginalPassword(
+            ConfigurationReader.get("newChangePassword")
+            );
+    }
+
 
 }
