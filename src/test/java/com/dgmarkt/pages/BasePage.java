@@ -17,6 +17,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public abstract class BasePage {
@@ -79,7 +80,7 @@ public abstract class BasePage {
     public void logoutwithSelda() {
         myAccountLink.click();
         logoutButton.click();
-        BrowserUtils.waitForVisibility(continueBtn,5);
+        BrowserUtils.waitForVisibility(continueBtn, 5);
         continueBtn.click();
     }
 
@@ -89,14 +90,6 @@ public abstract class BasePage {
     @FindBy(xpath = "//a[text()='product comparison']")
     private WebElement productComparisonLink;
 
-    @FindBy(id = "input-sort")
-    private WebElement sortByDropdown;
-
-    @FindBy(css = ".product-thumb h4 a")
-    private List<WebElement> productNameElements;
-
-    @FindBy(css = ".price")
-    private List<WebElement> productPriceElements;
 
     public WebElement getHealthAndBeautySubmenu() {
         return healthAndBeautySubmenu;
@@ -302,58 +295,6 @@ public abstract class BasePage {
             // 5. Normal click olmazsa JS Click fallback
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", section);
         }
-    }
-
-
-
-
-    /**
-     * Bu method Sort By dropdown'ından istenen sorting tipini seçer
-     *
-     * @param sortType - "Default", "Name (A - Z)", "Price (Low > High)" vb.
-     */
-    public void selectSortByOption(String sortType) {
-        Select select = new Select(sortByDropdown);
-        select.selectByVisibleText(sortType);
-    }
-
-
-    /**
-     * Bu method dropdown'da seçili olan sorting tipini döndürür
-     *
-     * @return Seçili olan sort option
-     */
-    public String getSelectedSortByOption() {
-        Select select = new Select(sortByDropdown);
-        return select.getFirstSelectedOption().getText();
-    }
-
-    /**
-     * Bu method sayfadaki tüm ürün isimlerini liste olarak döndürür
-     *
-     * @return Ürün isimleri listesi
-     */
-    public List<String> getProductNames() {
-        return BrowserUtils.getElementsText(productNameElements);
-
-    }
-
-    /**
-     * Bu method sayfadaki tüm ürün fiyatlarını liste olarak döndürür
-     *
-     * @return Ürün fiyatları listesi (Double)
-     */
-    public List<Double> getProductPrices() {
-        List<Double> prices = new ArrayList<>();
-        for (WebElement element : productPriceElements) {
-            String priceText = element.getText()
-                    .replace("$", "")
-                    .replace("€", "")
-                    .replace("£", "")
-                    .replace(",", "")
-                    .trim();
-        }
-        return prices;
     }
 
     /**
