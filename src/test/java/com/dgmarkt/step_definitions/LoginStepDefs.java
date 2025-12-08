@@ -1,22 +1,21 @@
 package com.dgmarkt.step_definitions;
 
 import com.dgmarkt.pages.LoginPage;
+import com.dgmarkt.utilities.BrowserUtils;
 import com.dgmarkt.utilities.ConfigurationReader;
 import com.dgmarkt.utilities.Driver;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import static com.dgmarkt.utilities.BrowserUtils.waitForVisibility;
 
 public class LoginStepDefs {
-    private static final Logger log = LogManager.getLogger(LoginStepDefs.class);
+
     LoginPage loginPage = new LoginPage();
-
-
 
     @Given("User is on the main login page")
     public void user_is_on_the_main_login_page() {
@@ -27,10 +26,7 @@ public class LoginStepDefs {
     public void the_user_enters_valid_email_and_password_and_clicks_the_login_button() {
         loginPage.login();
     }
-    @When("Closes the newsletter popup if it appears")
-    public void closes_the_newsletter_popup_if_it_appears() {
 
-    }
     @Then("The user should see the main page")
     public void the_user_should_see_the_main_page() {
         waitForVisibility(loginPage.myAccountLink, 10);
@@ -39,25 +35,27 @@ public class LoginStepDefs {
     }
 
     @Then("The user clicks on the My Account button")
-    public void the_user_clicks_on_the_my_account_button() throws InterruptedException {
-        loginPage.myAccountLink.click();
+    public void the_user_clicks_on_the_my_account_button()  {
+        loginPage.closeNewsletterPopupIfExists();
+       // loginPage.myAccountLink.click();
+        loginPage.clickSection("My Account");
 
     }
 
     @Then("The user clicks on the Login2 button")
-    public void the_user_clicks_on_the_login2_button() throws InterruptedException {
+    public void the_user_clicks_on_the_login2_button()  {
         loginPage.login2();
 
     }
 
     @Then("The user should see the Login or create an account page")
-    public void the_user_should_see_the_login_or_create_an_account_page() throws InterruptedException {
+    public void the_user_should_see_the_login_or_create_an_account_page()  {
         loginPage.verifyLoginPageTitle();
 
     }
 
     @When("The user enters E-Mail Address and Password and clicks the Login button")
-    public void the_user_enters_e_mail_address_and_password_and_clicks_the_login_button() throws InterruptedException {
+    public void the_user_enters_e_mail_address_and_password_and_clicks_the_login_button() {
         loginPage.login3();
 
     }
