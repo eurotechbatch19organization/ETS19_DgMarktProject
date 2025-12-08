@@ -80,7 +80,7 @@ public abstract class BasePage {
     public void logoutwithSelda() {
         myAccountLink.click();
         logoutButton.click();
-        BrowserUtils.waitForVisibility(continueBtn,5);
+        BrowserUtils.waitForVisibility(continueBtn, 5);
         continueBtn.click();
     }
 
@@ -89,18 +89,6 @@ public abstract class BasePage {
 
     @FindBy(xpath = "//a[text()='product comparison']")
     private WebElement productComparisonLink;
-
-    @FindBy(id = "input-sort")
-    private WebElement sortByDropdown;
-
-    @FindBy(css = ".product-thumb h4 a")
-    private List<WebElement> productNameElements;
-
-    @FindBy(css = ".price")
-    private List<WebElement> productPriceElements;
-
-    @FindBy(css = ".rating .fa.fa-stack")
-    private List<WebElement> productRatingElements;
 
 
     public WebElement getHealthAndBeautySubmenu() {
@@ -309,63 +297,6 @@ public abstract class BasePage {
         }
     }
 
-
-
-
-    /**
-     * Bu method Sort By dropdown'ından istenen sorting tipini seçer
-     *
-     * @param sortType - "Default", "Name (A - Z)", "Price (Low > High)" vb.
-     */
-    public void selectSortByOption(String sortType) {
-        Select select = new Select(sortByDropdown);
-        select.selectByVisibleText(sortType);
-    }
-
-
-    /**
-     * Bu method dropdown'da seçili olan sorting tipini döndürür
-     *
-     * @return Seçili olan sort option
-     */
-    public String getSelectedSortByOption() {
-        Select select = new Select(sortByDropdown);
-        return select.getFirstSelectedOption().getText();
-    }
-
-    /**
-     * Bu method sayfadaki tüm ürün isimlerini liste olarak döndürür
-     *
-     * @return Ürün isimleri listesi
-     */
-    public List<String> getProductNames() {
-        return BrowserUtils.getElementsText(productNameElements);
-
-    }
-
-    /**
-     * Bu method sayfadaki tüm ürün fiyatlarını liste olarak döndürür
-     *
-     * @return Ürün fiyatları listesi (Double)
-     */
-    public List<Double> getProductPrices() {
-        List<Double> prices = new ArrayList<>();
-        for (WebElement element : productPriceElements) {
-            String priceText = element.getText()
-                    .replace("$", "")
-                    .replace("€", "")
-                    .replace("£", "")
-                    .replace(",", "")
-                    .trim();
-            try {
-                prices.add(Double.parseDouble(priceText));
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid price format: " + element.getText());
-            }
-        }
-        return prices;
-    }
-
     /**
      * Kategoriye gitmek için bir method
      */
@@ -373,39 +304,6 @@ public abstract class BasePage {
         clickToCategory(categoryName);
         BrowserUtils.waitFor(2);
         veriyfToSubMenuName(categoryName);
-    }
-
-    /**
-     * Ürünlerin rating değerlerini döndürür
-     */
-    public List<Double> getProductRatings() {
-        List<Double> ratings = new ArrayList<>();
-
-        for (WebElement element : productRatingElements) {
-            String ratingText = element.getAttribute("data-rating");
-            ratings.add(ratingText != null ? Double.parseDouble(ratingText) : 0.0);
-        }
-
-        return ratings;
-    }
-
-   /**
-    * Ürünlerin model değerlerini döndürür
-    * Not: Sitede Model sıralaması ürün ismine göre yapıldığı için getProductNames() kullanılıyor
-    */
-    public List<String> getProductModels() {
-        return getProductNames();
-    }
-
-    /**
-     * Bu method Sort By dropdown'da seçili olan option'ın beklenenle aynı olduğunu doğrular
-     */
-    public void verifySelectedSortOption(String expectedSortType) {
-        Assert.assertEquals(
-                "Sort By dropdown does not show the correct selected option!",
-                expectedSortType,
-                getSelectedSortByOption()
-        );
     }
 }
 
