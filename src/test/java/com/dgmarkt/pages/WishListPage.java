@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class WishListPage extends BasePage{
+public class WishListPage extends BasePage {
 
     @FindBy(xpath = "//h4")
     private List<WebElement> productList;
@@ -23,7 +23,7 @@ public class WishListPage extends BasePage{
     @FindBy(xpath = "//h2")
     private WebElement wishListHeader;
 
-    @FindBy(id="wishlist-total")
+    @FindBy(id = "wishlist-total")
     private WebElement likeIconOnHomePage;
 
     @FindBy(xpath = "//a[@class='btn btn-danger']")
@@ -32,20 +32,25 @@ public class WishListPage extends BasePage{
     @FindBy(xpath = "//div[@class='alert alert-success alert-dismissible']")
     private WebElement removeSuccessMessage;
 
+    @FindBy(xpath = "//button[@data-original-title='Add to Cart']")
+    private WebElement addToCartButton;
+
     /**
      * Bu method ürünlerin üzerine gelmek için kullanılır
+     *
      * @param productIndex
      */
-    public void getHoverToProduct(int productIndex){
+    public void getHoverToProduct(int productIndex) {
         actions.moveToElement(productList.get(productIndex)).perform();
     }
 
     /**
      * Bu method beğenme ikonunun görüntülendiğini doğrular
      * Sayfa üzerinde birden fazla ürün olabilir, bu yüzden ürün indeksine göre kontrol yapılır
+     *
      * @param productIndex
      */
-    public void likeIconIsDisplayed(int productIndex){
+    public void likeIconIsDisplayed(int productIndex) {
         Assert.assertTrue(likeIcons.get(productIndex).isDisplayed());
 
     }
@@ -53,23 +58,24 @@ public class WishListPage extends BasePage{
     /**
      * Bu method beğenme ikonuna tıklamak için kullanılır
      * Sayfa üzerinde birden fazla ürün olabilir, bu yüzden ürün indeksine göre tıklama yapılır
+     *
      * @param productIndex
      */
-    public void clickLikeIcon(int productIndex){
+    public void clickLikeIcon(int productIndex) {
         likeIcons.get(productIndex).click();
     }
 
     /**
      * Bu method wish list sayfasına gitmek için kullanılır
      */
-    public void goToWishListPage(){
+    public void goToWishListPage() {
         wishListLink.click();
     }
 
     /**
      * Bu method wish list sayfasının başlığını doğrular
      */
-    public void verifyWishListPageTitle(){
+    public void verifyWishListPageTitle() {
         String expectedTitle = "My Wish List";
         String actualTitle = wishListHeader.getText();
         Assert.assertEquals(expectedTitle, actualTitle);
@@ -77,6 +83,7 @@ public class WishListPage extends BasePage{
 
     /**
      * Bu method verilen productName e sahip ürünün wish list sayfasında olduğunu doğrular
+     *
      * @param productName
      */
     public void verifyProductAddedToWishList(String productName) {
@@ -84,20 +91,25 @@ public class WishListPage extends BasePage{
                 By.xpath("//td[contains(text(),'" + productName + "')]"));
         Assert.assertTrue(product.isDisplayed());
     }
-    public void likeIconIsDisplayedOnHomePage(){
+
+    public void likeIconIsDisplayedOnHomePage() {
         Assert.assertTrue(likeIconOnHomePage.isDisplayed());
     }
-    public void clickLikeIconOnHomePage(){
+
+    public void clickLikeIconOnHomePage() {
         likeIconOnHomePage.click();
     }
-    public void clickRemoveButton(){
+
+    public void clickRemoveButton() {
         removeButton.click();
     }
-    public void verifyProductIsRemovedFromWishList(){
+    public void verifyProductIsRemovedFromWishList() {
         String expectedMessage = "Success: You have modified your wish list!";
         String actualMessage = removeSuccessMessage.getText();
         Assert.assertTrue(actualMessage.contains(expectedMessage));
     }
-
+    public void clickAddToCartButton() {
+        addToCartButton.click();
+    }
 
 }
