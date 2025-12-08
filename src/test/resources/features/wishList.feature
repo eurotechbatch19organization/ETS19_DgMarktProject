@@ -41,7 +41,7 @@ Feature: Like Icon (Wish List) Scenario
     When The user clicks on the shopping cart link
     Then The user verifies that the "eufy C1 Smart Scale White" is displayed in the cart page
 
-  @wip
+
   Scenario:Add Product Without Login / TC002-[US-5]
     And The user clicks on "HEALTH & BEAUTY" Category
     When The user hovers over the product

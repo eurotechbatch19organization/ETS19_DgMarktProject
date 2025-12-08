@@ -1,4 +1,4 @@
-@wip
+
 Feature: Password Change Functionality
 
   Background:

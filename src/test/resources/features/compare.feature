@@ -59,3 +59,13 @@ Feature: Cat-Subcategory-Compare this Product icon function Test
       Then The user clicks on the Compare this Product icon for the "Fitbit Aria Air Smart Bathroom Scale"
       Then The user clicks the Product Comparison link in the success message
       Then The user verifies that only four products are present in the comparison list
+
+
+    Scenario: When we try to add the same product to the comparison list again, the system displays the message ‘Successfully added.BUG-0002-[US-21]
+      When the user locates the Category section on the homepage
+      And the user hovers over the Category section
+      And The user clicks on the Health & Beauty subcategory
+      Then The user clicks on the Compare this Product icon for the "BaByliss 3663U - Hair rollers"
+      Then The user clicks on the close button
+      Then The user clicks on the Compare this Product icon for the "BaByliss 3663U - Hair rollers"
+      Then The user should be able to see the message 'The same product cannot be added to the comparison list more than once.'

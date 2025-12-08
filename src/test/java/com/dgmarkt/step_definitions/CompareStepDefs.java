@@ -20,6 +20,8 @@ public class CompareStepDefs {
         String expectedHeader = "Health & Beauty";
         String actualHeader = healthAndBeautyPage.getHealthAndBeautyHeader().getText();
         Assert.assertEquals(expectedHeader, actualHeader);
+
+        // comparisonPage.veriyfToSubMenuName("Health & Beauty");
     }
 
     @Then("The user should see the Compare this Product icon appear on product hover")
@@ -34,7 +36,7 @@ public class CompareStepDefs {
 
     @Then("The user clicks on the close button")
     public void the_user_clicks_on_the_close_button() {
-        comparisonPage.comparisonCloseBtn.click();
+        comparisonPage.comparisonClose().click();
     }
 
 
@@ -59,6 +61,11 @@ public class CompareStepDefs {
     @Then("The user verifies that only four products are present in the comparison list")
     public void the_user_verifies_that_only_four_products_are_present_in_the_comparison_list() {
            comparisonPage.testMaxFourProductsInComparison();
+    }
+
+    @Then("The user should be able to see the message {string}")
+    public void the_user_should_be_able_to_see_the_message(String expectedMessage) {
+        comparisonPage.verifySuccessMessage(expectedMessage);
     }
 
 
