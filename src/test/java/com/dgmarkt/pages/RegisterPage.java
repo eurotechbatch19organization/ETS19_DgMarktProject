@@ -2,11 +2,14 @@ package com.dgmarkt.pages;
 
 import com.dgmarkt.utilities.BrowserUtils;
 import com.dgmarkt.utilities.Driver;
+import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class RegisterPage extends BasePage {
+
+    private Faker faker = new Faker();
 
     @FindBy(linkText = "Register")
     public WebElement registerLink;
@@ -31,6 +34,9 @@ public class RegisterPage extends BasePage {
 
     @FindBy(xpath = "//input[@name='newsletter' and @value='0']")
     private WebElement subscribeNo;
+
+    @FindBy(xpath = "//input[@name='newsletter' and @value='1']")
+    private WebElement subscribeYes;
 
     @FindBy(xpath = "//input[@name='agree']")
     private WebElement privacyPolicyCheckbox;
@@ -93,6 +99,10 @@ public class RegisterPage extends BasePage {
         subscribeNo.click();
     }
 
+    public void selectSubscribeYes() {
+        subscribeYes.click();
+    }
+
     public void agreePrivacyPolicy() {
         privacyPolicyCheckbox.click();
     }
@@ -102,110 +112,153 @@ public class RegisterPage extends BasePage {
     }
 
     public boolean isSuccessMessageDisplayed() {
-        try {
-            BrowserUtils.waitForVisibility(successMessage, 10);
-            System.out.println("Success message found: " + successMessage.getText());
-            return successMessage.isDisplayed();
-        } catch (Exception e) {
-            System.out.println("Success message NOT found. Error: " + e.getMessage());
-            System.out.println("Current URL: " + Driver.get().getCurrentUrl());
-            return false;
-        }
+        BrowserUtils.waitForVisibility(successMessage, 10);
+        return successMessage.isDisplayed();
     }
 
     public void clickContinueAfterAccountCreated() {
-
         String xpath = "(//a[normalize-space()='Continue'] | " +
                 "//button[normalize-space()='Continue'] | " +
                 "//button[.//span[normalize-space()='Continue']])";
 
-        try {
-            WebElement el = Driver.get().findElement(By.xpath(xpath));
-            BrowserUtils.waitForClickablility(el, 10).click();
-            return;
-        } catch (Exception ignored) {
-        }
+        WebElement continueBtn = Driver.get().findElement(By.xpath(xpath));
+        BrowserUtils.waitForClickablility(continueBtn, 10);
+        BrowserUtils.clickWithJS(continueBtn);
+    }
 
-        try {
-            WebElement el = Driver.get().findElement(By.xpath(xpath));
-            BrowserUtils.clickWithJS(el);
-            return;
-        } catch (Exception ignored) {
-        }
-
-
-        throw new RuntimeException("Failed to click Continue button on success popup!");
+    public void clickRegisterLink() {
+        registerLink.click();
     }
 
     public String getFirstNameErrorMessage() {
-        try {
-            BrowserUtils.waitForVisibility(firstNameErrorMessage, 10);
-            return firstNameErrorMessage.getText();
-        } catch (Exception e) {
-            System.out.println("Error message not found: " + e.getMessage());
-            return "";
-        }
+        BrowserUtils.waitForVisibility(firstNameErrorMessage, 10);
+        return firstNameErrorMessage.getText();
     }
 
     public String getLastNameErrorMessage() {
-        try {
-            BrowserUtils.waitForVisibility(lastNameErrorMessage, 10);
-            return lastNameErrorMessage.getText();
-        } catch (Exception e) {
-            System.out.println("Error message not found: " + e.getMessage());
-            return "";
-        }
+        BrowserUtils.waitForVisibility(lastNameErrorMessage, 10);
+        return lastNameErrorMessage.getText();
     }
 
     public String getEmailErrorMessage() {
-        try {
-            BrowserUtils.waitForVisibility(emailErrorMessage, 10);
-            return emailErrorMessage.getText();
-        } catch (Exception e) {
-            System.out.println("Email error message not found: " + e.getMessage());
-            return "";
-        }
+        BrowserUtils.waitForVisibility(emailErrorMessage, 10);
+        return emailErrorMessage.getText();
     }
 
     public String getTelephoneErrorMessage() {
-        try {
-            BrowserUtils.waitForVisibility(telephoneErrorMessage, 10);
-            return telephoneErrorMessage.getText();
-        } catch (Exception e) {
-            System.out.println("Telephone error message not found: " + e.getMessage());
-            return "";
-        }
+        BrowserUtils.waitForVisibility(telephoneErrorMessage, 10);
+        return telephoneErrorMessage.getText();
     }
 
     public String getPasswordErrorMessage() {
-        try {
-            BrowserUtils.waitForVisibility(passwordErrorMessage, 10);
-            return passwordErrorMessage.getText();
-        } catch (Exception e) {
-            System.out.println("Password error message not found: " + e.getMessage());
-            return "";
-        }
+        BrowserUtils.waitForVisibility(passwordErrorMessage, 10);
+        return passwordErrorMessage.getText();
     }
 
     public String getPasswordConfirmErrorMessage() {
-        try {
-            BrowserUtils.waitForVisibility(passwordConfirmErrorMessage, 10);
-            return passwordConfirmErrorMessage.getText();
-        } catch (Exception e) {
-            System.out.println("Password Confirm error message not found: " + e.getMessage());
-            return "";
-        }
+        BrowserUtils.waitForVisibility(passwordConfirmErrorMessage, 10);
+        return passwordConfirmErrorMessage.getText();
     }
 
     public String getWarningMessage() {
-        try {
-            BrowserUtils.waitForVisibility(warningMessage, 10);
-            return warningMessage.getText().trim();
-        } catch (Exception e) {
-            System.out.println("Warning message not found: " + e.getMessage());
-            return "";
+        BrowserUtils.waitForVisibility(warningMessage, 10);
+        return warningMessage.getText().trim();
+    }
+
+    /**
+     * Flexible registration form filler with custom parameters
+     * @param firstNameValue - null to skip, "LONG" for 33 chars, or custom value
+     * @param lastNameValue - null to skip, "LONG" for 33 chars, or custom value
+     * @param emailValue - null to skip, "INVALID" for invalid format, or custom value
+     * @param telephoneValue - null to skip, "SHORT" for 2 digits, "LONG" for 33 digits, or custom value
+     * @param passwordValue - null to skip, "SHORT" for 3 chars, "MISMATCH" for different confirm, or custom value
+     * @param confirmPasswordValue - null to skip, or custom value
+     */
+    public void fillRegistrationForm(String firstNameValue,
+                                     String lastNameValue,
+                                     String emailValue,
+                                     String telephoneValue,
+                                     String passwordValue,
+                                     String confirmPasswordValue) {
+
+        // First Name
+        if (firstNameValue != null) {
+            if (firstNameValue.equals("LONG")) {
+                enterFirstName(faker.lorem().characters(33));
+            } else {
+                enterFirstName(firstNameValue);
+            }
+        }
+
+        // Last Name
+        if (lastNameValue != null) {
+            if (lastNameValue.equals("LONG")) {
+                enterLastName(faker.lorem().characters(33));
+            } else {
+                enterLastName(lastNameValue);
+            }
+        }
+
+        // Email
+        if (emailValue != null) {
+            if (emailValue.equals("INVALID")) {
+                enterEmail("invalidEmailFormat");
+            } else {
+                enterEmail(emailValue);
+            }
+        }
+
+        // Telephone
+        if (telephoneValue != null) {
+            if (telephoneValue.equals("SHORT")) {
+                enterTelephone(faker.number().digits(2));
+            } else if (telephoneValue.equals("LONG")) {
+                enterTelephone(faker.number().digits(33));
+            } else {
+                enterTelephone(telephoneValue);
+            }
+        }
+
+        // Password
+        if (passwordValue != null) {
+            if (passwordValue.equals("SHORT")) {
+                String shortPass = faker.lorem().characters(3);
+                enterPassword(shortPass);
+                if (confirmPasswordValue == null) {
+                    enterPasswordConfirm(shortPass);
+                }
+            } else if (passwordValue.equals("MISMATCH")) {
+                String pass1 = faker.internet().password(8, 12, true, true);
+                String pass2 = faker.internet().password(8, 12, true, true);
+                enterPassword(pass1);
+                enterPasswordConfirm(pass2);
+                return; // Don't process confirmPasswordValue for MISMATCH
+            } else {
+                enterPassword(passwordValue);
+            }
+        }
+
+        // Password Confirm
+        if (confirmPasswordValue != null && passwordValue != null && !passwordValue.equals("MISMATCH")) {
+            enterPasswordConfirm(confirmPasswordValue);
         }
     }
+
+    /**
+     * Helper method to fill form with valid random data
+     */
+    public void fillRegistrationFormWithValidData() {
+        String password = faker.internet().password(8, 12, true, true);
+        fillRegistrationForm(
+                faker.name().firstName(),
+                faker.name().lastName(),
+                faker.internet().emailAddress(),
+                faker.number().digits(11),
+                password,
+                password
+        );
+    }
 }
+
 
 
