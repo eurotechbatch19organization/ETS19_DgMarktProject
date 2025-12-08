@@ -119,9 +119,22 @@ public class ChangePasswordStepDefs {
         WebDriverWait wait = new WebDriverWait(Driver.get(), Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(passwordChangePage.warningMessage));
         String actualMessage = passwordChangePage.warningMessage.getText().trim();
-        Assert.assertEquals(actualMessage, expectedWarningMessage);
+        Assert.assertEquals(expectedWarningMessage, actualMessage);
 
     }
+
+    @Then("The user should verify that the warning message is {string}")
+    public void the_user_should_verify_that_the_warning_message_is(String expectedMessage) {
+        String actualMessage = Driver.get()
+                .findElement(By.cssSelector(".alert.alert-success"))
+                .getText()
+                .trim();
+        Assert.assertEquals(expectedMessage,actualMessage);
+
+
+
+    }
+
 
 }
 
