@@ -23,6 +23,15 @@ public class WishListPage extends BasePage{
     @FindBy(xpath = "//h2")
     private WebElement wishListHeader;
 
+    @FindBy(id="wishlist-total")
+    private WebElement likeIconOnHomePage;
+
+    @FindBy(xpath = "//a[@class='btn btn-danger']")
+    private WebElement removeButton;
+
+    @FindBy(xpath = "//div[@class='alert alert-success alert-dismissible']")
+    private WebElement removeSuccessMessage;
+
     /**
      * Bu method ürünlerin üzerine gelmek için kullanılır
      * @param productIndex
@@ -75,6 +84,20 @@ public class WishListPage extends BasePage{
                 By.xpath("//td[contains(text(),'" + productName + "')]"));
         Assert.assertTrue(product.isDisplayed());
     }
-    //bunu hocaya sor list içine alıp birden fazla ürün doğrulaması yapayım mı diye
+    public void likeIconIsDisplayedOnHomePage(){
+        Assert.assertTrue(likeIconOnHomePage.isDisplayed());
+    }
+    public void clickLikeIconOnHomePage(){
+        likeIconOnHomePage.click();
+    }
+    public void clickRemoveButton(){
+        removeButton.click();
+    }
+    public void verifyProductIsRemovedFromWishList(){
+        String expectedMessage = "Success: You have modified your wish list!";
+        String actualMessage = removeSuccessMessage.getText();
+        Assert.assertTrue(actualMessage.contains(expectedMessage));
+    }
+
 
 }

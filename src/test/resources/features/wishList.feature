@@ -19,3 +19,12 @@ Feature: Like Icon (Wish List) Scenario
     When The user clicks on the like icon of the product
     And The user goes to the Wish List page
     Then The user should verify that the "eufy C1 Smart Scale White" is added to the Wish List
+
+  @wip
+  Scenario: Delete Product from Wish List / TC004 -[US-5]
+    When The user logs in and verifies
+    And The user verifies that the like icon is displayed on the homepage
+    And The user clicks on the like icon on the homepage
+    Then The user should verify that the "eufy C1 Smart Scale White" is added to the Wish List
+    When The user clicks on the Remove button of the product
+    Then The user verifies that the product is removed from the Wish List page
