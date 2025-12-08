@@ -1,5 +1,6 @@
 package com.dgmarkt.pages;
 
+import com.dgmarkt.utilities.BrowserUtils;
 import com.dgmarkt.utilities.ConfigurationReader;
 import com.dgmarkt.utilities.Driver;
 import org.junit.Assert;
@@ -76,7 +77,9 @@ public class PasswordChangePage extends BasePage{
     public void clickNewChangePassword(String password) {
         waitAndType(newPasswordInput, password);
         waitAndType(passwordConfirmInput, password);
-        wait.until(ExpectedConditions.elementToBeClickable(continueBtn)).click();
+        BrowserUtils.waitFor(1);
+        wait.until(ExpectedConditions.elementToBeClickable(continueBtn));
+        BrowserUtils.clickWithJS(continueBtn);
     }
 
     /**
