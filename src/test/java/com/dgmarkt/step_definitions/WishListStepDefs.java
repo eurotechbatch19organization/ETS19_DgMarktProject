@@ -62,5 +62,27 @@ public class WishListStepDefs {
     public void the_user_verifies_that_the_product_is_removed_from_the_wish_list_page() {
         wishListPage.verifyProductIsRemovedFromWishList();
     }
+    @Then("The user verifies that the {string} is not displayed in the wishlist")
+    public void the_user_verifies_that_the_is_not_displayed_in_the_wishlist(String productName) {
+        wishListPage.verifyProductIsNotInWishList(productName);
+
+    }
+    @When("The user clicks on the Add to Cart button of the product")
+    public void the_user_clicks_on_the_add_to_cart_button_of_the_product() {
+       wishListPage.clickAddToCartButton();
+    }
+    @Then("The user verifies that the product is added to the Cart successfully")
+    public void the_user_verifies_that_the_product_is_added_to_the_cart_successfully() {
+        shoppingCartPage.verifySuccessMessageIsDisplayed();
+    }
+    @Then("The user verifies that the {string} is displayed in the cart page")
+    public void the_user_verifies_that_the_is_displayed_in_the_cart_page(String productName) {
+        BrowserUtils.waitFor(1);
+        wishListPage.verifyProductAddedToWishList(productName);
+    }
+    @Then("The user should see a message prompting to log in or create an account")
+    public void the_user_should_see_a_message_prompting_to_log_in_or_create_an_account() {
+        wishListPage.verifyCreateOrLoginPopupMessageIsDisplayed();
+    }
 
 }

@@ -35,6 +35,9 @@ public class WishListPage extends BasePage {
     @FindBy(xpath = "//button[@data-original-title='Add to Cart']")
     private WebElement addToCartButton;
 
+    @FindBy(xpath="//div[@class='alert alert-fix alert-success alert-dismissible']")
+    private WebElement createOrLoginPopupMessage;
+
     /**
      * Bu method ürünlerin üzerine gelmek için kullanılır
      *
@@ -108,8 +111,17 @@ public class WishListPage extends BasePage {
         String actualMessage = removeSuccessMessage.getText();
         Assert.assertTrue(actualMessage.contains(expectedMessage));
     }
+    public void verifyProductIsNotInWishList(String productName) {
+        List<WebElement> products = Driver.get().findElements(
+                By.xpath("//td[contains(text(),'" + productName + "')]"));
+        Assert.assertTrue(products.isEmpty());
+    }
     public void clickAddToCartButton() {
         addToCartButton.click();
     }
+    public void verifyCreateOrLoginPopupMessageIsDisplayed() {
+        Assert.assertTrue(createOrLoginPopupMessage.isDisplayed());
+    }
+
 
 }
