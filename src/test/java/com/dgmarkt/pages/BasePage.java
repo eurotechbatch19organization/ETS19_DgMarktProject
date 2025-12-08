@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public abstract class BasePage {
+public abstract class BasePage{
     {
         PageFactory.initElements(Driver.get(), this);
     }
