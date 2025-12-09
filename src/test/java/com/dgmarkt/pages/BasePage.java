@@ -5,17 +5,17 @@ import com.dgmarkt.utilities.ConfigurationReader;
 import com.dgmarkt.utilities.Driver;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public abstract class BasePage {
     {
@@ -49,13 +49,24 @@ public abstract class BasePage {
     @FindBy(xpath = "//span[text()='Currency']")
     private WebElement currencyDropdown;
 
-
+    @FindBy(css = "a.a-close-newsletter")
+    private WebElement closeNewsletterButton;
 
     @FindBy(id = "pt-logout-link")
     public WebElement logoutButton;
 
     @FindBy(xpath = "//div[@class='logout-success']//span[normalize-space()='Continue']")
     private WebElement continueButton;
+
+    @FindBy(xpath = "//ul[@class='dropdown-menu dropdown-menu-right pt-account']/li")
+    private List<WebElement> MyAccountAllSubMenus;
+
+    @FindBy(xpath = "(//a[text()='My Account'])[1]")
+    private WebElement myAccountHeader;
+
+    @FindBy(xpath = "//a[normalize-space()='Continue' and contains(@class,'btn-primary')]")
+    private WebElement continueBtn;
+
 
     public void logout() {
         myAccountLink.click();
@@ -65,20 +76,19 @@ public abstract class BasePage {
 
     }
 
+    public void logoutwithSelda() {
+        myAccountLink.click();
+        logoutButton.click();
+        BrowserUtils.waitForVisibility(continueBtn, 5);
+        continueBtn.click();
+    }
+
     @FindBy(xpath = "//a[contains(@href, 'product_id=7064674')]/following-sibling::div[@class='button-group']//button[@class='button-compare']")
     private WebElement compareButton;
 
     @FindBy(xpath = "//a[text()='product comparison']")
     private WebElement productComparisonLink;
 
-    @FindBy(id = "input-sort")
-    private WebElement sortByDropdown;
-
-    @FindBy(css = ".product-thumb h4 a")
-    private List<WebElement> productNameElements;
-
-    @FindBy(css = ".price")
-    private List<WebElement> productPriceElements;
 
     public WebElement getHealthAndBeautySubmenu() {
         return healthAndBeautySubmenu;
@@ -88,11 +98,9 @@ public abstract class BasePage {
         return healthAndBeautyHeader;
     }
 
-
     public List<WebElement> getSubmenuList() {
         return submenuList;
     }
-
 
     /**
      * bu method daschboard daki menuleri icine aldigi bir list icerir.SG
@@ -137,7 +145,6 @@ public abstract class BasePage {
             }
         }
     }
-
 
     public void openCurrencyOptions() {
         currencyDropdown.click();
@@ -261,68 +268,29 @@ public abstract class BasePage {
      * @param sectionName
      */
     public void clickSection(String sectionName) {
-        WebElement section = Driver.get().findElement(
+        WebDriver driver = Driver.get();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        // 1. Elementi bul
+        WebElement section = wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//a[normalize-space()='" + sectionName + "']")
-        );
-        section.click();
-    }
+        ));
 
-    /**
-     * ana sayfadaki My Account linkine tiklar SG
-     */
-    public void clickMyAccountLink(String myAccount) {
-        BrowserUtils.waitFor(1);
-        wait.until(ExpectedConditions.visibilityOf(myAccountLink));
-        clickMyAccountToSubMenu("Password");
-    }
+        try {
+            // 2. Görünür değilse scroll et
+            ((JavascriptExecutor) driver).executeScript(
+                    "arguments[0].scrollIntoView({block: 'center'});", section);
 
-    /**
-     * Bu method Sort By dropdown'ından istenen sorting tipini seçer
-     *
-     * @param sortType - "Default", "Name (A - Z)", "Price (Low > High)" vb.
-     */
-    public void selectSortByOption(String sortType) {
-        Select select = new Select(sortByDropdown);
-        select.selectByVisibleText(sortType);
-    }
+            // 3. Clickable olana kadar bekle
+            wait.until(ExpectedConditions.elementToBeClickable(section));
 
+            // 4. Normal click dene
+            section.click();
 
-    /**
-     * Bu method dropdown'da seçili olan sorting tipini döndürür
-     *
-     * @return Seçili olan sort option
-     */
-    public String getSelectedSortByOption() {
-        Select select = new Select(sortByDropdown);
-        return select.getFirstSelectedOption().getText();
-    }
-
-    /**
-     * Bu method sayfadaki tüm ürün isimlerini liste olarak döndürür
-     *
-     * @return Ürün isimleri listesi
-     */
-    public List<String> getProductNames() {
-        return BrowserUtils.getElementsText(productNameElements);
-
-    }
-
-    /**
-     * Bu method sayfadaki tüm ürün fiyatlarını liste olarak döndürür
-     *
-     * @return Ürün fiyatları listesi (Double)
-     */
-    public List<Double> getProductPrices() {
-        List<Double> prices = new ArrayList<>();
-        for (WebElement element : productPriceElements) {
-            String priceText = element.getText()
-                    .replace("$", "")
-                    .replace("€", "")
-                    .replace("£", "")
-                    .replace(",", "")
-                    .trim();
+        } catch (Exception e) {
+            // 5. Normal click olmazsa JS Click fallback
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", section);
         }
-        return prices;
     }
 
     /**
@@ -332,6 +300,16 @@ public abstract class BasePage {
         clickToCategory(categoryName);
         BrowserUtils.waitFor(2);
         veriyfToSubMenuName(categoryName);
+    }
+
+    /**
+     * My Account dropdown'ını açıp istenen submenu'ye tıklar
+     *
+     * @param submenuName - "Register", "Login", "My Account" gibi
+     */
+    public void navigateToMyAccountSubmenu(String submenuName) {
+        myAccountLink.click();
+        clickMyAccountToSubMenu(submenuName);
     }
 }
 

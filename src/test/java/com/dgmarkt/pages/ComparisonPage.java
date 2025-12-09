@@ -1,6 +1,7 @@
 package com.dgmarkt.pages;
 
 import com.dgmarkt.utilities.BrowserUtils;
+import com.dgmarkt.utilities.Driver;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -22,9 +23,20 @@ public class ComparisonPage extends BasePage{
    private List<WebElement> productNames;
 
     @FindBy(xpath = "//button[@class='close']")
-    public WebElement comparisonCloseBtn;
+    private WebElement comparisonCloseBtn;
+
+    @FindBy(xpath = "//*[contains(text(), 'Success: You have added')]")
+    private WebElement successMessage;
 
 
+    public void verifySuccessMessage(String expectedMessage){
+        String actualMessage=successMessage.getText();
+        Assert.assertEquals(expectedMessage,actualMessage);
+    }
+
+    public WebElement comparisonClose(){
+        return comparisonCloseBtn;
+    }
 
     /**
      * bu metod Comparison Page sayfasının tamamen yüklendiğini doğrular.

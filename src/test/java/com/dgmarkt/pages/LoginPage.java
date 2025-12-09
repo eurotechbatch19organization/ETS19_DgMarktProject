@@ -115,34 +115,53 @@ public class LoginPage extends BasePage {
         login();
     }
 
-    public void login2() {
+
+
+
+    public void login2(){
         login2Btn.click();
+
     }
 
-    public void verifyLoginPageTitle() {
+
+    public void verifyLoginPageTitle(){
+        wait.until(ExpectedConditions.visibilityOf(loginOrCreateAnAccountPageTitle));
         String actualPageTitle = loginOrCreateAnAccountPageTitle.getText();
         String expectedPageTitle = "Login or create an account";
-        Assert.assertEquals(expectedPageTitle, actualPageTitle);
+        Assert.assertEquals(expectedPageTitle,actualPageTitle);
     }
+
+
 
     public void login3() {
         emailBox2.sendKeys(ConfigurationReader.get("myAccountEmail"));
         passwordBox2.sendKeys(ConfigurationReader.get("myAccountPassword"));
         login3Btn.click();
+
     }
 
     public void login(String email, String password) {
         emailBox.sendKeys(email);
         passwordBox.sendKeys(password);
         login3Btn.click();
+        closeNewsletterPopupIfExists();
     }
 
     /**
      * change password test case lerim icin olusturdugum login methodu
      */
-    public void loginWithSelda() {
+    public void loginWithSelda(){
         emailBox2.sendKeys(ConfigurationReader.get("myChangeEmail"));
         passwordBox2.sendKeys(ConfigurationReader.get("newChangePassword"));
+        login3Btn.click();
+    }
+
+    /**
+     * passwordumu degistridikten sonra guncel parolamla login olabilmek icin
+     */
+    public void loginWithNewPass(){
+        emailBox2.sendKeys(ConfigurationReader.get("myChangeEmail"));
+        passwordBox2.sendKeys(ConfigurationReader.get("myNewPassword"));
         login3Btn.click();
     }
 
