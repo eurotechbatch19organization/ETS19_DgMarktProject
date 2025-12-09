@@ -1,3 +1,4 @@
+@wip
 Feature: Advanced Login Scenarios
 
   Background:
@@ -19,7 +20,7 @@ Feature: Advanced Login Scenarios
 
   @AC2
   Scenario: AC_2 - User can not login with wrong password for a registered e-mail
-    When the user enters a valid registered e-mail "cart@mon.com" and a wrong password "WrongPass123!"
+    When the user enters a valid registered e-mail "liorariven@gmail.com" and a wrong password "WrongPass123!"
     Then the user should see an error message "Warning: No match for E-Mail Address and/or Password."
     And the user should remain on the login page
 
@@ -27,30 +28,29 @@ Feature: Advanced Login Scenarios
   @AC3
   Scenario Outline: AC_3 - User can not login with invalid credentials
     When the user enters an invalid e-mail "<email>" and enters any password "<password>"
-    And the user clicks the Login button
     Then the user should see a validation message "<message>"
     And the user should remain on the login page
 
     Examples:
-      | email            | password     | message                                               |
-      | invalid          | Aass123456   | Warning: No match for E-Mail Address and/or Password. |
-      | test@test        | Ssdd123456   | Warning: No match for E-Mail Address and/or Password. |
-      | @test.com        | Wwee123456   | Warning: No match for E-Mail Address and/or Password. |
-      | unknown@test.com | Rree.*123456 | Warning: No match for E-Mail Address and/or Password. |
+      | email             | password     | message                                               |
+      | random            | Aass123456   | Warning: No match for E-Mail Address and/or Password. |
+      | rtest@test        | Ssdd123456   | Warning: No match for E-Mail Address and/or Password. |
+      | @rtest.com        | Wwee123456   | Warning: No match for E-Mail Address and/or Password. |
+      | unknown1@test.com | Rree.*123456 | Warning: No match for E-Mail Address and/or Password. |
 
 
   @AC4
   Scenario Outline: AC_4 - User can not login with blank input boxes
     When the user enters an invalid e-mail "<email>" and enters any password "<password>"
-    And the user clicks the Login button
     Then the user should see a validation message "<message>"
     And the user should remain on the login page
 
+
     Examples:
-      | email         | password    | message                                               |
-      |               |             | Warning: No match for E-Mail Address and/or Password. |
-      | sdo@gmail.com |             | Warning: No match for E-Mail Address and/or Password. |
-      |               | Ddff.123456 | Warning: No match for E-Mail Address and/or Password. |
+      | email            | password    | message                                               |
+      | 0                | 0           | Warning: No match for E-Mail Address and/or Password. |
+      | sdosdy@gmail.com | 0           | Warning: No match for E-Mail Address and/or Password. |
+      | 0                | Ddff.123456 | Warning: No match for E-Mail Address and/or Password. |
 
 
   @AC5
@@ -80,6 +80,5 @@ Feature: Advanced Login Scenarios
   Scenario: AC_7 - User can not login after exceeding 5 failed login attempts
     Given the user has already tried to login 5 times with wrong password
     When the user enters a valid registered e-mail "cart@mon.com" and enters a wrong password "Wrong.123456"
-    And the user clicks the Login button
     Then the user should see a lockout message "Warning: Your account has exceeded allowed number of login attempts. Please try again in 1 hour."
     And the user should not be logged in

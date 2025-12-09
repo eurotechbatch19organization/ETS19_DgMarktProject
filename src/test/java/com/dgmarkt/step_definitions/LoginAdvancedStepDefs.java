@@ -2,8 +2,6 @@ package com.dgmarkt.step_definitions;
 
 import com.dgmarkt.pages.LoginPage;
 import com.dgmarkt.utilities.BrowserUtils;
-import com.dgmarkt.utilities.ConfigurationReader;
-import com.dgmarkt.utilities.Driver;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -37,7 +35,7 @@ public class LoginAdvancedStepDefs {
 
     @Then("the user should see an error message {string}")
     public void the_user_should_see_an_error_message(String string) {
-        loginPage.verifyErrorMessage(string);
+        loginPage.verifyLoginAlertText(string);
     }
 
     @Then("the user should remain on the login page")
@@ -50,14 +48,9 @@ public class LoginAdvancedStepDefs {
         loginPage.login(string, string2);
     }
 
-    @When("the user clicks the Login button")
-    public void the_user_clicks_the_login_button() {
-        loginPage.clickLogin3Button();
-    }
-
     @Then("the user should see a validation message {string}")
     public void the_user_should_see_a_validation_message(String string) {
-        loginPage.verifyErrorMessage(string);
+        loginPage.verifyLoginAlertText(string);
     }
 
     @When("the user focuses on the password field")
@@ -93,7 +86,7 @@ public class LoginAdvancedStepDefs {
 
     @Then("the user should see a message {string}")
     public void the_user_should_see_a_message(String expectedMessage) {
-        loginPage.verifyForgotPasswordAlert(expectedMessage);
+        loginPage.verifyLoginAlertText(expectedMessage);
     }
 
     @When("the user enters an unregistered e-mail {string} in the forgotten password field")
@@ -113,7 +106,7 @@ public class LoginAdvancedStepDefs {
 
     @Then("the user should see a lockout message {string}")
     public void the_user_should_see_a_lockout_message(String string) {
-        loginPage.verifyForgotPasswordAlert(string);
+        loginPage.verifyLoginAlertText(string);
 
     }
 

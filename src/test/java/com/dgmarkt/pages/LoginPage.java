@@ -61,10 +61,6 @@ public class LoginPage extends BasePage {
     @FindBy(xpath = "//a[@class='a-close-frm']")
     private WebElement closeButtonLoginPage;
 
-    @FindBy(xpath = "//div[@class='alert alert-danger']")
-    private WebElement alertedAlertSamet;
-
-
 
     private By AlertMessageLoc =
             By.xpath("//div[contains(@class,'alert')]");
@@ -215,13 +211,10 @@ public class LoginPage extends BasePage {
         Assert.assertEquals(expectedPageTitle, actualPageTitle);
     }
 
-    public void verifyForgotPasswordAlert(String expectedMessage) {
-        System.out.println(alertedAlertSamet.getText());
+    public void verifyLoginAlertText(String expectedMessage) {
         WebElement alert = wait.until(ExpectedConditions.visibilityOfElementLocated(AlertMessageLoc));
-
         String raw = alert.getText();
         String actualPageTitle = raw.split("\\R")[0].trim();
-
         Assert.assertEquals(expectedMessage, actualPageTitle);
     }
 
