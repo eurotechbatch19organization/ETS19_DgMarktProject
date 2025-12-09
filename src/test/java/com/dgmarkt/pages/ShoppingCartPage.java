@@ -122,7 +122,7 @@ public class ShoppingCartPage extends BasePage {
      * Bu method billing details kısmındaki zorunlu alanları doldurur
      */
     public void fillBillingDetails() {
-
+        BrowserUtils.waitFor(1);
         firstName.sendKeys("Irem"+ Keys.TAB);
         lastName.sendKeys("Yokus"+ Keys.TAB);
         email.sendKeys("test@gmail.com"+ Keys.TAB);
@@ -162,6 +162,10 @@ public class ShoppingCartPage extends BasePage {
         }
     }
 
+    public void clickCheckoutListContinue(){
+        BrowserUtils.clickWithJS(Driver.get().findElement(By.xpath("//input[@value='Continue']")));
+    }
+
     /**
      * Bu method sipariş onay mesajının doğru olduğunu doğrular
      */
@@ -173,8 +177,9 @@ public class ShoppingCartPage extends BasePage {
 
     }
     public void clickDeliveryDetailsContinue() {
-        BrowserUtils.waitFor(2);
-        continueButtonDeliveryDetails.click();
+        BrowserUtils.waitFor(1);
+     //   continueButtonDeliveryDetails.click();
+        BrowserUtils.clickWithJS(continueButtonDeliveryDetails);
     }
     public void verifyExistingAddressIsSelected() {
         Assert.assertTrue(checkExistingAddress.isSelected());

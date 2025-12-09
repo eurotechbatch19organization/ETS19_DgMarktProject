@@ -46,7 +46,8 @@ public class ShoppingCartStepDefs {
 
     @When("The user clicks on the Continue button")
     public void the_user_clicks_on_the_continue_button() {
-        shoppingCartPage.clickVisibleContinue();
+       // shoppingCartPage.clickVisibleContinue();
+        shoppingCartPage.clickCheckoutListContinue();
     }
 
     @Then("The user fills in all mandatory fields on the billing details.")
