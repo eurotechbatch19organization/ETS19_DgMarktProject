@@ -1,0 +1,84 @@
+@wip
+Feature: Advanced Login Scenarios
+
+  Background:
+    Given User is on the main login page
+    When The user enters valid email and password and clicks the Login button
+    Then The user should see the main page
+    And The user clicks on the My Account button
+    And The user clicks on the Login2 button
+    Then The user should see the Login or create an account page
+
+
+  @AC1 @smoke
+  Scenario: AC_1 - Successful login with valid E-Mail and password
+    When The user enters E-Mail Address and Password and clicks the Login button
+    And The user verifies Login Successful message is displayed
+    And The user clicks the Logout button and popup button
+    Then The user should see the "Login" button in My Account section
+
+
+  @AC2
+  Scenario: AC_2 - User can not login with wrong password for a registered e-mail
+    When the user enters a valid registered e-mail "liorariven@gmail.com" and a wrong password "WrongPass123!"
+    Then the user should see an error message "Warning: No match for E-Mail Address and/or Password."
+    And the user should remain on the login page
+
+
+  @AC3
+  Scenario Outline: AC_3 - User can not login with invalid credentials
+    When the user enters an invalid e-mail "<email>" and enters any password "<password>"
+    Then the user should see a validation message "<message>"
+    And the user should remain on the login page
+
+    Examples:
+      | email             | password     | message                                               |
+      | random            | Aass123456   | Warning: No match for E-Mail Address and/or Password. |
+      | rtest@test        | Ssdd123456   | Warning: No match for E-Mail Address and/or Password. |
+      | @rtest.com        | Wwee123456   | Warning: No match for E-Mail Address and/or Password. |
+      | unknown1@test.com | Rree.*123456 | Warning: No match for E-Mail Address and/or Password. |
+
+
+  @AC4
+  Scenario Outline: AC_4 - User can not login with blank input boxes
+    When the user enters an invalid e-mail "<email>" and enters any password "<password>"
+    Then the user should see a validation message "<message>"
+    And the user should remain on the login page
+
+
+    Examples:
+      | email            | password    | message                                               |
+      | 0                | 0           | Warning: No match for E-Mail Address and/or Password. |
+      | sdosdy@gmail.com | 0           | Warning: No match for E-Mail Address and/or Password. |
+      | 0                | Ddff.123456 | Warning: No match for E-Mail Address and/or Password. |
+
+
+  @AC5
+  Scenario: AC_5 - Password is displayed as bullet signs by default
+    When the user focuses on the password field
+    And the user types any password "MySecret123!"
+    Then the user should see the password masked as bullet signs
+
+
+  @AC6
+  Scenario: AC_6 - User can use the Forgotten Password functionality with registered e-mail
+    When the user clicks the "Forgotten Password" link
+    And the user enters a registered e-mail "syuleymandouble@gmail.com" in the forgotten password field
+    And the user clicks the Continue button
+    Then the user should see a message "An email with a confirmation link has been sent your email address."
+
+
+  @AC6
+  Scenario: AC_6 - Forgotten Password with unregistered e-mail
+    When the user clicks the "Forgotten Password" link
+    And the user enters an unregistered e-mail "unknown@test.com" in the forgotten password field
+    And the user clicks the Continue button
+    Then the user should see a message "Warning: The E-Mail Address was not found in our records, please try again!"
+
+
+  @AC7
+  Scenario: AC_7 - User can not login after exceeding 5 failed login attempts
+    Given the user has already tried to login 5 times with wrong password
+    When the user enters a valid registered e-mail "cart@mon.com" and enters a wrong password "Wrong.123456"
+    Then the user should see a lockout message "Warning: Your account has exceeded allowed number of login attempts. Please try again in 1 hour."
+    And the user should not be logged in

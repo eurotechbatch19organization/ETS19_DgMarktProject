@@ -5,8 +5,7 @@ Feature: Login Scenarios
     When The user enters valid email and password and clicks the Login button
     Then The user should see the main page
 
-
-    Scenario: Second Login
+  Scenario: Second Login
     Given User is on the main login page
     When The user enters valid email and password and clicks the Login button
     Then The user should see the main page
@@ -15,6 +14,3 @@ Feature: Login Scenarios
     Then The user should see the Login or create an account page
     When The user enters E-Mail Address and Password and clicks the Login button
     Then The user verifies Login Successful message is displayed
-
-
-

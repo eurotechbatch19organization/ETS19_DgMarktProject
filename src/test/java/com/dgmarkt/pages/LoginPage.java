@@ -6,7 +6,6 @@ import com.dgmarkt.utilities.ConfigurationReader;
 import com.dgmarkt.utilities.Driver;
 import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -47,6 +46,50 @@ public class LoginPage extends BasePage {
     @FindBy(xpath = "//div[text()=' Congratulation! Login Successfully']")
     private WebElement CongratulationLoginSuccessfullyPageTitle;
 
+    @FindBy(xpath = "//div[contains(@class,'alert-danger')]")
+    private WebElement noMatchWarningTitle;
+
+    @FindBy(xpath = "//a[text()='Forgotten Password']")
+    private WebElement forgotPasswordLink;
+
+    @FindBy(xpath = "//input[@type='submit']")
+    private WebElement continiue2Button;
+
+    @FindBy(xpath = "//div[contains(@class,'alert-success')]")
+    private WebElement successInConfirmationLinkSendMessage;
+
+    @FindBy(xpath = "//a[@class='a-close-frm']")
+    private WebElement closeButtonLoginPage;
+
+
+    private By AlertMessageLoc =
+            By.xpath("//div[contains(@class,'alert')]");
+            //By.cssSelector("div.alert.alert-dismissible");
+
+
+    public WebElement getNoMatchWarningTitle() {
+        return noMatchWarningTitle;
+    }
+
+    public WebElement getPasswordBox2() {
+        return passwordBox2;
+    }
+
+    public WebElement getForgotPasswordLink() {
+        return forgotPasswordLink;
+    }
+
+    public WebElement getEmailBox2() {
+        return emailBox2;
+    }
+
+    public WebElement getCloseButtonLoginPage() {
+        return closeButtonLoginPage;
+    }
+
+    public WebElement getContiniue2Button() {
+        return continiue2Button;
+    }
 
     public void login() {
         emailBox.sendKeys(ConfigurationReader.get("firstEmail"));
@@ -96,7 +139,7 @@ public class LoginPage extends BasePage {
     public void login(String email, String password) {
         emailBox.sendKeys(email);
         passwordBox.sendKeys(password);
-        loginBtn.click();
+        login3Btn.click();
         closeNewsletterPopupIfExists();
     }
 
@@ -118,22 +161,70 @@ public class LoginPage extends BasePage {
         login3Btn.click();
     }
 
-    public void verifyLoginSuccess(){
+    public void verifyLoginSuccess() {
         String actualPageTitle = CongratulationLoginSuccessfullyPageTitle.getText();
         String expectedPageTitle = " Congratulation! Login Successfully";
 
-       boolean result = false;
-        if(actualPageTitle.contains("Congratulation!")){
-            result = true;
-            actualPageTitle=" Congratulation! Login Successfully";
-
+        if (actualPageTitle.contains("Congratulation!")) {
+            actualPageTitle = " Congratulation! Login Successfully";
         }
-
-        Assert.assertEquals(expectedPageTitle,actualPageTitle);
-
-
+        Assert.assertEquals(expectedPageTitle, actualPageTitle);
     }
 
+    public boolean isLoginButtonVisible() {
+        myAccountLink.click();
+        BrowserUtils.waitForVisibility(login2Btn, 3 );
+        try {
+            return login2Btn.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public void verifyErrorMessage(String  message) {
+        String actualPageTitle = noMatchWarningTitle.getText().trim();
+        String expectedPageTitle = message;
+
+        if (actualPageTitle.contains("No match for E-Mail")) {
+            actualPageTitle = " Warning: No match for E-Mail Address and/or Password.";
+        }
+        Assert.assertEquals(expectedPageTitle, actualPageTitle);
+    }
+
+    public void verifyLoginOrCreateAnAccountPage() {
+        String actualPageTitle = loginOrCreateAnAccountPageTitle.getText();
+        String expectedPageTitle = "Login or create an account";
+        Assert.assertEquals(expectedPageTitle, actualPageTitle);
+    }
+
+    public void clickLogin3Button() {
+        login3Btn.click();
+    }
+
+    public void verifyConfirmationLinkInEmail(String text) {
+        String actualPageTitle = successInConfirmationLinkSendMessage.getText();
+        String expectedPageTitle = " An email with a confirmation link has been sent your email address.";
+
+        if (actualPageTitle.contains("An email with a confirmation")) {
+            actualPageTitle = " An email with a confirmation link has been sent your email address.";
+        }
+        Assert.assertEquals(expectedPageTitle, actualPageTitle);
+    }
+
+    public void verifyLoginAlertText(String expectedMessage) {
+        WebElement alert = wait.until(ExpectedConditions.visibilityOfElementLocated(AlertMessageLoc));
+        String raw = alert.getText();
+        String actualPageTitle = raw.split("\\R")[0].trim();
+        Assert.assertEquals(expectedMessage, actualPageTitle);
+    }
+
+    public void tryToLoginWithWrongPassManyTimes(Integer times) {
+        for (int i = 0; i < times; i++) {
+            emailBox2.sendKeys(ConfigurationReader.get("E-mail"));
+            passwordBox2.sendKeys("WrongPassword123!");
+            login3Btn.click();
+        }
+    }
 
 }
 
