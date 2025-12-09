@@ -2,20 +2,22 @@ package com.dgmarkt.step_definitions;
 
 import com.dgmarkt.pages.LoginPage;
 import com.dgmarkt.pages.RegisterPage;
-import com.dgmarkt.utilities.Driver;
-import com.github.javafaker.Faker;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
-import org.openqa.selenium.By;
 
 public class RegisterStepDefs {
 
-    LoginPage loginPage = new LoginPage();
-    RegisterPage register = new RegisterPage();
-    Faker faker = new Faker();
-    String password = faker.internet().password(8, 12, true, true);
+    LoginPage loginPage;
+    RegisterPage register;
+    String password;
+
+    public RegisterStepDefs() {
+        loginPage = new LoginPage();
+        register = new RegisterPage();
+        password = register.generatePassword();
+    }
 
     @Given("User is on the main login page and logs in")
     public void user_is_on_the_main_login_page_and_logs_in() {
@@ -25,7 +27,7 @@ public class RegisterStepDefs {
     @Given("Navigates to My Account -> Register")
     public void navigates_to_my_account_register() {
         loginPage.myAccountLink.click();
-        register.clickRegisterLink();
+        register.navigateToMyAccountSubmenu("Register");
     }
 
     @When("The user fills the registration form with valid data")
@@ -70,9 +72,9 @@ public class RegisterStepDefs {
     public void the_user_fills_the_registration_form_without_first_name() {
         register.fillRegistrationForm(
                 null,
-                faker.name().lastName(),
-                faker.internet().emailAddress(),
-                faker.number().digits(11),
+                register.faker.name().lastName(),
+                register.faker.internet().emailAddress(),
+                register.faker.number().digits(11),
                 password,
                 password
         );
@@ -81,10 +83,10 @@ public class RegisterStepDefs {
     @When("The user fills the registration form without Last Name")
     public void the_user_fills_the_registration_form_without_last_name() {
         register.fillRegistrationForm(
-                faker.name().firstName(),
+                register.faker.name().firstName(),
                 null,
-                faker.internet().emailAddress(),
-                faker.number().digits(11),
+                register.faker.internet().emailAddress(),
+                register.faker.number().digits(11),
                 password,
                 password
         );
@@ -93,10 +95,10 @@ public class RegisterStepDefs {
     @When("The user fills the registration form without Email")
     public void the_user_fills_the_registration_form_without_email() {
         register.fillRegistrationForm(
-                faker.name().firstName(),
-                faker.name().lastName(),
+                register.faker.name().firstName(),
+                register.faker.name().lastName(),
                 null,
-                faker.number().digits(11),
+                register.faker.number().digits(11),
                 password,
                 password
         );
@@ -105,9 +107,9 @@ public class RegisterStepDefs {
     @When("The user fills the registration form without Telephone")
     public void the_user_fills_the_registration_form_without_telephone() {
         register.fillRegistrationForm(
-                faker.name().firstName(),
-                faker.name().lastName(),
-                faker.internet().emailAddress(),
+                register.faker.name().firstName(),
+                register.faker.name().lastName(),
+                register.faker.internet().emailAddress(),
                 null,
                 password,
                 password
@@ -117,10 +119,10 @@ public class RegisterStepDefs {
     @When("The user fills the registration form without Password")
     public void the_user_fills_the_registration_form_without_password() {
         register.fillRegistrationForm(
-                faker.name().firstName(),
-                faker.name().lastName(),
-                faker.internet().emailAddress(),
-                faker.number().digits(11),
+                register.faker.name().firstName(),
+                register.faker.name().lastName(),
+                register.faker.internet().emailAddress(),
+                register.faker.number().digits(11),
                 null,
                 password
         );
@@ -129,10 +131,10 @@ public class RegisterStepDefs {
     @When("The user fills the registration form without Password Confirm")
     public void the_user_fills_the_registration_form_without_password_confirm() {
         register.fillRegistrationForm(
-                faker.name().firstName(),
-                faker.name().lastName(),
-                faker.internet().emailAddress(),
-                faker.number().digits(11),
+                register.faker.name().firstName(),
+                register.faker.name().lastName(),
+                register.faker.internet().emailAddress(),
+                register.faker.number().digits(11),
                 password,
                 null
         );
@@ -146,10 +148,10 @@ public class RegisterStepDefs {
     @When("The user fills the registration form without Last Name and Email")
     public void the_user_fills_the_registration_form_without_last_name_and_email() {
         register.fillRegistrationForm(
-                faker.name().firstName(),
+                register.faker.name().firstName(),
                 null,
                 null,
-                faker.number().digits(11),
+                register.faker.number().digits(11),
                 password,
                 password
         );
@@ -158,9 +160,9 @@ public class RegisterStepDefs {
     @When("The user fills the registration form without Telephone and Password")
     public void the_user_fills_the_registration_form_without_telephone_and_password() {
         register.fillRegistrationForm(
-                faker.name().firstName(),
-                faker.name().lastName(),
-                faker.internet().emailAddress(),
+                register.faker.name().firstName(),
+                register.faker.name().lastName(),
+                register.faker.internet().emailAddress(),
                 null,
                 null,
                 password
@@ -172,7 +174,7 @@ public class RegisterStepDefs {
         register.fillRegistrationForm(
                 null,
                 null,
-                faker.internet().emailAddress(),
+                register.faker.internet().emailAddress(),
                 null,
                 password,
                 password
@@ -182,10 +184,10 @@ public class RegisterStepDefs {
     @When("The user fills the registration form with invalid Email format")
     public void the_user_fills_the_registration_form_with_invalid_email_format() {
         register.fillRegistrationForm(
-                faker.name().firstName(),
-                faker.name().lastName(),
+                register.faker.name().firstName(),
+                register.faker.name().lastName(),
                 "INVALID",
-                faker.number().digits(11),
+                register.faker.number().digits(11),
                 password,
                 password
         );
@@ -194,10 +196,10 @@ public class RegisterStepDefs {
     @When("The user fills the registration form with mismatched passwords")
     public void the_user_fills_the_registration_form_with_mismatched_passwords() {
         register.fillRegistrationForm(
-                faker.name().firstName(),
-                faker.name().lastName(),
-                faker.internet().emailAddress(),
-                faker.number().digits(11),
+                register.faker.name().firstName(),
+                register.faker.name().lastName(),
+                register.faker.internet().emailAddress(),
+                register.faker.number().digits(11),
                 "MISMATCH",
                 null
         );
@@ -207,9 +209,9 @@ public class RegisterStepDefs {
     public void the_user_fills_the_registration_form_with_first_name_longer_than_thirty_two_characters() {
         register.fillRegistrationForm(
                 "LONG",
-                faker.name().lastName(),
-                faker.internet().emailAddress(),
-                faker.number().digits(11),
+                register.faker.name().lastName(),
+                register.faker.internet().emailAddress(),
+                register.faker.number().digits(11),
                 password,
                 password
         );
@@ -218,10 +220,10 @@ public class RegisterStepDefs {
     @When("The user fills the registration form with Last Name longer than thirty two characters")
     public void the_user_fills_the_registration_form_with_last_name_longer_than_thirty_two_characters() {
         register.fillRegistrationForm(
-                faker.name().firstName(),
+                register.faker.name().firstName(),
                 "LONG",
-                faker.internet().emailAddress(),
-                faker.number().digits(11),
+                register.faker.internet().emailAddress(),
+                register.faker.number().digits(11),
                 password,
                 password
         );
@@ -230,9 +232,9 @@ public class RegisterStepDefs {
     @When("The user fills the registration form with Telephone shorter than three characters")
     public void the_user_fills_the_registration_form_with_telephone_shorter_than_three_characters() {
         register.fillRegistrationForm(
-                faker.name().firstName(),
-                faker.name().lastName(),
-                faker.internet().emailAddress(),
+                register.faker.name().firstName(),
+                register.faker.name().lastName(),
+                register.faker.internet().emailAddress(),
                 "SHORT",
                 password,
                 password
@@ -242,9 +244,9 @@ public class RegisterStepDefs {
     @When("The user fills the registration form with Telephone longer than thirty two characters")
     public void the_user_fills_the_registration_form_with_telephone_longer_than_thirty_two_characters() {
         register.fillRegistrationForm(
-                faker.name().firstName(),
-                faker.name().lastName(),
-                faker.internet().emailAddress(),
+                register.faker.name().firstName(),
+                register.faker.name().lastName(),
+                register.faker.internet().emailAddress(),
                 "LONG",
                 password,
                 password
@@ -254,10 +256,10 @@ public class RegisterStepDefs {
     @When("The user fills the registration form with Password shorter than four characters")
     public void the_user_fills_the_registration_form_with_password_shorter_than_four_characters() {
         register.fillRegistrationForm(
-                faker.name().firstName(),
-                faker.name().lastName(),
-                faker.internet().emailAddress(),
-                faker.number().digits(11),
+                register.faker.name().firstName(),
+                register.faker.name().lastName(),
+                register.faker.internet().emailAddress(),
+                register.faker.number().digits(11),
                 "SHORT",
                 null
         );
