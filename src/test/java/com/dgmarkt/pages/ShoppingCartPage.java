@@ -62,7 +62,7 @@ public class ShoppingCartPage extends BasePage {
     @FindBy(id="button-shipping-address")
     private WebElement continueButtonDeliveryDetails;
 
-    @FindBy(xpath = "//input[@value='existing']")
+    @FindBy(xpath = "//input[@checked='checked']")
     private WebElement checkExistingAddress;
 
     @FindBy(xpath = "//input[@value='flat.flat']")
