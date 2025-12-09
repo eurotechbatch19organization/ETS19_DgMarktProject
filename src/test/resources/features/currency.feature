@@ -1,3 +1,4 @@
+
 Feature: Currency Scenario
 
   Background:
@@ -17,7 +18,7 @@ Feature: Currency Scenario
     Then The user selects "Euro" from the dropdown
     And The user clicks on "HEALTH & BEAUTY" Category
     Then The user verifies that the selected currency symbol "€" is displayed on the page.
-    And The user add "eufy C1 Smart Scale White" to the shopping cart.
+    And The user add "eufy P1 Smart Scale Blue and Black" to the shopping cart.
     Then The user should see the shopping cart popup
     When The user clicks on the shopping cart link
 
@@ -26,7 +27,7 @@ Feature: Currency Scenario
     When The user clicks on the currency dropdown
     Then The user selects "Euro" from the dropdown
     And The user clicks on "HEALTH & BEAUTY" Category
-    And The user add "eufy C1 Smart Scale White" to the shopping cart.
+    And The user add "eufy P1 Smart Scale Blue and Black" to the shopping cart.
     Then The user should see the shopping cart popup
     When The user clicks on the shopping cart link
     Then The user verifies that the selected currency symbol "€" is displayed on the page.
