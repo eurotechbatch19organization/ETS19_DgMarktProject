@@ -27,7 +27,8 @@ public abstract class BasePage {
 
 
     @FindBy(xpath = "//div[@id='pt-menu-7739']/ul/li")
-    private List<WebElement> homeTabElements;
+    private List<WebElement>
+            homeTabElements;
 
     @FindBy(xpath = "//span[text()='Category']")
     private WebElement categoryMenu;
@@ -53,14 +54,15 @@ public abstract class BasePage {
     @FindBy(id = "pt-logout-link")
     public WebElement logoutButton;
 
-    @FindBy(xpath = "(//span[text()='Continue'])[2]")
+    @FindBy(xpath = "//div[@class='logout-success']//span[normalize-space()='Continue']")
     private WebElement continueButton;
 
     public void logout() {
         myAccountLink.click();
         logoutButton.click();
-        BrowserUtils.waitForVisibility(continueButton, 3);
+        BrowserUtils.waitForVisibility(continueButton, 5);
         continueButton.click();
+
     }
 
     @FindBy(xpath = "//a[contains(@href, 'product_id=7064674')]/following-sibling::div[@class='button-group']//button[@class='button-compare']")
