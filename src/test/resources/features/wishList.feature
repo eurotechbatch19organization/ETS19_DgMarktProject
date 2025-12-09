@@ -1,3 +1,4 @@
+
 Feature: Like Icon (Wish List) Scenario
 
   Background:
