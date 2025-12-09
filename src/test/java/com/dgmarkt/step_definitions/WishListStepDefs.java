@@ -77,7 +77,6 @@ public class WishListStepDefs {
     }
     @Then("The user verifies that the {string} is displayed in the cart page")
     public void the_user_verifies_that_the_is_displayed_in_the_cart_page(String productName) {
-        BrowserUtils.waitFor(1);
         wishListPage.verifyProductAddedToWishList(productName);
     }
     @Then("The user should see a message prompting to log in or create an account")

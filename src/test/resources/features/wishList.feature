@@ -21,17 +21,6 @@ Feature: Like Icon (Wish List) Scenario
     And The user goes to the Wish List page
     Then The user should verify that the "eufy C1 Smart Scale White" is added to the Wish List
 
-
-  Scenario: Delete Product from Wish List / TC004 -[US-5]
-    When The user logs in and verifies
-    And The user verifies that the like icon is displayed on the homepage
-    And The user clicks on the like icon on the homepage
-    Then The user should verify that the "eufy C1 Smart Scale White" is added to the Wish List
-    When The user clicks on the Remove button of the product
-    Then The user verifies that the product is removed from the Wish List page
-    And The user verifies that the "eufy C1 Smart Scale White" is not displayed in the wishlist
-
-
   Scenario: Add Product to Cart From Wish List / TC005 -[US-5]
     When The user logs in and verifies
     And The user verifies that the like icon is displayed on the homepage
@@ -41,6 +30,15 @@ Feature: Like Icon (Wish List) Scenario
     Then The user verifies that the product is added to the Cart successfully
     When The user clicks on the shopping cart link
     Then The user verifies that the "eufy C1 Smart Scale White" is displayed in the cart page
+
+  Scenario: Delete Product from Wish List / TC004 -[US-5]
+    When The user logs in and verifies
+    And The user verifies that the like icon is displayed on the homepage
+    And The user clicks on the like icon on the homepage
+    Then The user should verify that the "eufy C1 Smart Scale White" is added to the Wish List
+    When The user clicks on the Remove button of the product
+    Then The user verifies that the product is removed from the Wish List page
+    And The user verifies that the "eufy C1 Smart Scale White" is not displayed in the wishlist
 
 
   Scenario:Add Product Without Login / TC002-[US-5]
