@@ -12,13 +12,10 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 public abstract class BasePage {
     {
@@ -99,11 +96,9 @@ public abstract class BasePage {
         return healthAndBeautyHeader;
     }
 
-
     public List<WebElement> getSubmenuList() {
         return submenuList;
     }
-
 
     /**
      * bu method daschboard daki menuleri icine aldigi bir list icerir.SG
@@ -148,7 +143,6 @@ public abstract class BasePage {
             }
         }
     }
-
 
     public void openCurrencyOptions() {
         currencyDropdown.click();
@@ -304,6 +298,16 @@ public abstract class BasePage {
         clickToCategory(categoryName);
         BrowserUtils.waitFor(2);
         veriyfToSubMenuName(categoryName);
+    }
+
+    /**
+     * My Account dropdown'ını açıp istenen submenu'ye tıklar
+     *
+     * @param submenuName - "Register", "Login", "My Account" gibi
+     */
+    public void navigateToMyAccountSubmenu(String submenuName) {
+        myAccountLink.click();
+        clickMyAccountToSubMenu(submenuName);
     }
 }
 

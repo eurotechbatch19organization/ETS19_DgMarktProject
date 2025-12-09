@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class RegisterPage extends BasePage {
 
-    private Faker faker = new Faker();
+    public Faker faker = new Faker();
 
     @FindBy(linkText = "Register")
     public WebElement registerLink;
@@ -46,9 +46,6 @@ public class RegisterPage extends BasePage {
 
     @FindBy(xpath = "//*[contains(text(),'Your Account Has Been Created')]")
     private WebElement successMessage;
-
-    @FindBy(xpath = "//button[contains(.,'Continue')]")
-    private WebElement continueAfterAccountCreated;
 
     @FindBy(xpath = "//input[@id='input-firstname']/following-sibling::div[contains(@class,'text-danger')]")
     private WebElement firstNameErrorMessage;
@@ -124,10 +121,6 @@ public class RegisterPage extends BasePage {
         WebElement continueBtn = Driver.get().findElement(By.xpath(xpath));
         BrowserUtils.waitForClickablility(continueBtn, 10);
         BrowserUtils.clickWithJS(continueBtn);
-    }
-
-    public void clickRegisterLink() {
-        registerLink.click();
     }
 
     public String getFirstNameErrorMessage() {
@@ -228,11 +221,11 @@ public class RegisterPage extends BasePage {
                     enterPasswordConfirm(shortPass);
                 }
             } else if (passwordValue.equals("MISMATCH")) {
-                String pass1 = faker.internet().password(8, 12, true, true);
-                String pass2 = faker.internet().password(8, 12, true, true);
+                String pass1 = generatePassword();
+                String pass2 = generatePassword();
                 enterPassword(pass1);
                 enterPasswordConfirm(pass2);
-                return; // Don't process confirmPasswordValue for MISMATCH
+                return;
             } else {
                 enterPassword(passwordValue);
             }
@@ -248,7 +241,7 @@ public class RegisterPage extends BasePage {
      * Helper method to fill form with valid random data
      */
     public void fillRegistrationFormWithValidData() {
-        String password = faker.internet().password(8, 12, true, true);
+        String password = generatePassword();
         fillRegistrationForm(
                 faker.name().firstName(),
                 faker.name().lastName(),
@@ -258,6 +251,15 @@ public class RegisterPage extends BasePage {
                 password
         );
     }
+
+    /**
+     * Helper method to generate a valid password
+     * @return Random password string (8-12 characters)
+     */
+    public String generatePassword() {
+        return faker.internet().password(8, 12, true, true);
+    }
+
 }
 
 
